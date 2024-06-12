@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Model;
 
 import java.io.Serializable;
 
@@ -7,6 +7,10 @@ public class ModelListHome implements Serializable {
     private String tvDay;
     private String tvTitle;
     private String tvAmount;
+
+    // Default constructor required for calls to DataSnapshot.getValue(ModelListHome.class)
+    public ModelListHome() {
+    }
 
     public ModelListHome(String tvDate, String tvDay, String tvTitle, String tvAmount) {
         this.tvDate = tvDate;

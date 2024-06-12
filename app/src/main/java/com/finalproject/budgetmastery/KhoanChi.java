@@ -1,55 +1,45 @@
 package com.finalproject.budgetmastery;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.view.ViewGroup;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
-public class KhoanChi extends AppCompatActivity {
-    EditText edtSoTien, edtGhiChu, edtNgayThang;
-    Spinner spChonNhom;
-    Button btnLuu;
+import com.finalproject.budgetmastery.Adapter.ViewPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-    @SuppressLint("MissingInflatedId")
+public class KhoanChi extends Fragment {
+
+    private TabLayout tabLayout;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_khoan_chi);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_khoan_chi, container, false);
 
-        // Tìm View bằng ID main và thiết lập OnApplyWindowInsetsListener
-        View mainView = findViewById(R.id.main);
-        if (mainView != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
-        }
+        tabLayout = view.findViewById(R.id.tabLayout);
+        ViewPager2 viewPager = view.findViewById(R.id.viewPager);
 
-        edtSoTien = findViewById(R.id.edtSoTien);
-        spChonNhom = findViewById(R.id.spChonNhom);
-        edtGhiChu = findViewById(R.id.edtGhiChu);
-        edtNgayThang = findViewById(R.id.edtNgayThang);
-        btnLuu = findViewById(R.id.btnLuu);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(requireActivity());
+        viewPager.setAdapter(adapter);
 
-        btnLuu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String soTien = edtSoTien.getText().toString();
-                String ghiChu = edtGhiChu.getText().toString();
-                String ngayThang = edtNgayThang.getText().toString();
-
-                // Xử lý lưu thông tin tại đây
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Khoản Chi");
+                    break;
+                case 1:
+                    tab.setText("Khoản Thu");
+                    break;
             }
-        });
+        }).attach();
+
+        return view;
     }
 }

@@ -1,52 +1,48 @@
 package com.finalproject.budgetmastery;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
+import android.view.ViewGroup;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
-public class DsKhoanChi extends AppCompatActivity {
-    ListView listView;
-    AdapterFrameKhoanChi adapterFrame;
+import com.finalproject.budgetmastery.Adapter.ViewPagerThuChiAdapter;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.database.FirebaseDatabase;
 
-    @SuppressLint("MissingInflatedId")
+public class DsKhoanChi extends Fragment {
+    private TabLayout tabLayout1;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_ds_khoan_chi);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_ds_khoan_chi, container, false);
 
-        View mainView = findViewById(R.id.main);
-        if (mainView != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
-        } else {
-            Log.e("DsKhoanChi", "View with ID 'main' not found");
-        }
 
-        listView = findViewById(R.id.listview_ds);
-        adapterFrame = new AdapterFrameKhoanChi(this, R.layout.khoanchi_list);
 
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        listView.setAdapter(adapterFrame);
+        tabLayout1 = view.findViewById(R.id.tabLayout1);
+        ViewPager2 viewPager = view.findViewById(R.id.viewPagerList);
+
+        ViewPagerThuChiAdapter adapter = new ViewPagerThuChiAdapter(requireActivity());
+        viewPager.setAdapter(adapter);
+
+        new TabLayoutMediator(tabLayout1, viewPager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("Khoản Chi");
+                    break;
+                case 1:
+                    tab.setText("Khoản Thu");
+                    break;
+            }
+        }).attach();
+
+        return view;
     }
+
 }

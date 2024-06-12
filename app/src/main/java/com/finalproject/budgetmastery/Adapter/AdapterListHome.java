@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,12 +11,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class AdapterFrameHome extends ArrayAdapter<ModelListHome> {
+import com.finalproject.budgetmastery.Model.ModelListHome;
+import com.finalproject.budgetmastery.R;
+
+public class AdapterListHome extends ArrayAdapter<ModelListHome> {
 
     Activity context;
     int resouce;
 
-    public AdapterFrameHome(@NonNull Context context, int resource) {
+    public AdapterListHome(@NonNull Context context, int resource) {
         super(context, resource);
         this.context = (Activity) context;
         this.resouce = resource;
