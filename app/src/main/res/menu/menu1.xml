@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/home_icon"
+        android:title="Home"/>
+    <item
+        android:id="@+id/Vitien"
+        android:enabled="true"
+        android:icon="@drawable/vitien_icon"
+        android:title="Vi tien"/>
+    <item
+        android:id="@+id/cong"
+        android:enabled="true"
+        android:icon="@drawable/plus_icon"
+        android:title="Vi tien"/>
+    <item
+        android:id="@+id/Thongke"
+        android:enabled="true"
+        android:icon="@drawable/thongke_icon"
+        android:title="Thống kê"/>
+    <item
+        android:id="@+id/Caidat"
+        android:enabled="true"
+        android:icon="@drawable/caidat_icon"
+        android:title="Cài đặt"/>
+</menu>
