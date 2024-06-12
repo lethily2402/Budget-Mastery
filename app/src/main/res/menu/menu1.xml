@@ -8,12 +8,12 @@
         android:id="@+id/Vitien"
         android:enabled="true"
         android:icon="@drawable/vitien_icon"
-        android:title="Vi tien"/>
+        android:title="Ví tiền"/>
     <item
         android:id="@+id/cong"
         android:enabled="true"
         android:icon="@drawable/plus_icon"
-        android:title="Vi tien"/>
+        android:title="Add"/>
     <item
         android:id="@+id/Thongke"
         android:enabled="true"

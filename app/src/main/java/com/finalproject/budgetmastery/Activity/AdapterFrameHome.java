@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.finalproject.budgetmastery.Model.ModelListHome;
+import com.finalproject.budgetmastery.R;
 
 public class AdapterFrameHome extends ArrayAdapter<ModelListHome> {
 

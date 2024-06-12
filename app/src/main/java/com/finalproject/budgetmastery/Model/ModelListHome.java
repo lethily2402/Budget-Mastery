@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Model;
 
 import java.io.Serializable;
 

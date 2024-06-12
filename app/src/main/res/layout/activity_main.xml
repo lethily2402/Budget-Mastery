@@ -5,13 +5,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#ccc"
+    tools:context=".Activity.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigator"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:background="@drawable/bottom_navigation_menu"
+        android:fitsSystemWindows="true"
+        app:itemBackground="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu1" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="409dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

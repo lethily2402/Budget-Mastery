@@ -1,7 +1,6 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -9,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.finalproject.budgetmastery.Model.ModelListHome;
+import com.finalproject.budgetmastery.R;
 
 public class Home extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.finalproject.budgetmastery.R;
 
 public class KhoanChi extends AppCompatActivity {
     EditText edtSoTien, edtGhiChu, edtNgayThang;
