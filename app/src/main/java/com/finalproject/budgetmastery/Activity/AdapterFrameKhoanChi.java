@@ -34,7 +34,6 @@ public class AdapterFrameKhoanChi extends ArrayAdapter<ModelListLKhoanChi> {
         ImageView image_icon = (ImageView) customview.findViewById(R.id.image_icon);
         TextView txt_title = (TextView) customview.findViewById(R.id.txt_title);
 
-
         ModelListLKhoanChi items = getItem(position);
 
         image_icon.setImageResource(items.getImage_icon());

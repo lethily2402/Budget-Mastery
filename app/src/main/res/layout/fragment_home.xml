@@ -2,11 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondary_color"
-    tools:context=".Activity.Home" >
+    tools:context=".Fragment.HomeFragment" >
+
 
     <LinearLayout
         android:id="@+id/header"
@@ -20,10 +19,11 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:drawableLeft="@drawable/img_icon"
-            android:text="Xinchao"
-            android:textColor="@color/primary_color"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Xin chào"
+            android:textColor="#000"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Space
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Tài khoản của tôi"
-                android:textColor="@color/primary_color"
+                android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Thu nhập"
-                android:textColor="@color/primary_color"
+                android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Chi tiêu"
-                android:textColor="@color/primary_color"
+                android:textColor="#000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -138,27 +138,16 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linearLayout3"
-        app:layout_constraintBottom_toTopOf="@id/navigator">
+        app:layout_constraintTop_toBottomOf="@id/linearLayout3">
 
         <ListView
             android:id="@+id/listview_ds"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
     </LinearLayout>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigator"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_navigation_menu"
-        android:fitsSystemWindows="true"
-        app:itemBackground="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/menu1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

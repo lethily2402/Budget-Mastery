@@ -15,13 +15,14 @@ import androidx.core.view.WindowInsetsCompat;
 import com.finalproject.budgetmastery.Model.ModelListLKhoanChi;
 import com.finalproject.budgetmastery.R;
 
-public class DsKhoanChi extends AppCompatActivity {
+public class DsKhoanChiActivity extends AppCompatActivity {
     ListView listView;
     AdapterFrameKhoanChi adapterFrame;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ds_khoan_chi);

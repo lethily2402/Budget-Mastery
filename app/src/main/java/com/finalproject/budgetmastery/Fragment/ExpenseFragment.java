@@ -1,34 +1,34 @@
-package com.finalproject.budgetmastery.Activity;
+package com.finalproject.budgetmastery.Fragment;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
+
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.finalproject.budgetmastery.R;
 
-public class KhoanChi extends AppCompatActivity {
+public class ExpenseFragment extends Fragment {
     EditText edtSoTien, edtGhiChu, edtNgayThang;
     Spinner spChonNhom;
     Button btnLuu;
-
-    @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_khoan_chi);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_expense, container, false);
+
 
         // Tìm View bằng ID main và thiết lập OnApplyWindowInsetsListener
-        View mainView = findViewById(R.id.main);
+        View mainView = view.findViewById(R.id.main);
         if (mainView != null) {
             ViewCompat.setOnApplyWindowInsetsListener(mainView, (v, insets) -> {
                 Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -37,11 +37,11 @@ public class KhoanChi extends AppCompatActivity {
             });
         }
 
-        edtSoTien = findViewById(R.id.edtSoTien);
-        spChonNhom = findViewById(R.id.spChonNhom);
-        edtGhiChu = findViewById(R.id.edtGhiChu);
-        edtNgayThang = findViewById(R.id.edtNgayThang);
-        btnLuu = findViewById(R.id.btnLuu);
+        edtSoTien = view.findViewById(R.id.edtSoTien);
+        spChonNhom = view.findViewById(R.id.spChonNhom);
+        edtGhiChu = view.findViewById(R.id.edtGhiChu);
+        edtNgayThang = view.findViewById(R.id.edtNgayThang);
+        btnLuu = view.findViewById(R.id.btnLuu);
 
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,5 +53,7 @@ public class KhoanChi extends AppCompatActivity {
                 // Xử lý lưu thông tin tại đây
             }
         });
+
+        return view;
     }
 }
