@@ -8,30 +8,23 @@
     android:orientation="vertical"
     android:paddingTop="40dp">
 
-    <EditText
-        android:id="@+id/edtsearch"
+    <SearchView
+        android:id="@+id/svSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/edt"
         android:drawableRight="@drawable/search"
         android:hint="Tìm kiếm"
-        android:padding="10dp"
-        android:textColorHint="@color/primary_color">
-
-    </EditText>
+        android:textColorHint="@color/primary_color" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvThuchi"
+        <ListView
+            android:id="@+id/lvThuchi"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contextClickable="true"
-            android:paddingLeft="20dp">
-
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent" />
     </FrameLayout>
 </LinearLayout>

@@ -12,12 +12,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.finalproject.budgetmastery.Model.ModelListLKhoanChi;
+import com.finalproject.budgetmastery.Adapter.AdapterListKhoanChi;
+import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
 import com.finalproject.budgetmastery.R;
 
 public class DsKhoanChiActivity extends AppCompatActivity {
     ListView listView;
-    AdapterFrameKhoanChi adapterFrame;
+    AdapterListKhoanChi adapterFrame;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,18 +40,22 @@ public class DsKhoanChiActivity extends AppCompatActivity {
         }
 
         listView = findViewById(R.id.listview_ds);
-        adapterFrame = new AdapterFrameKhoanChi(this, R.layout.khoanchi_list);
 
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
-        adapterFrame.add(new ModelListLKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//         Tìm cách sửa lỗi phần dưới này đi nhé
+//         Phân rõ ra ai code file nào chứ đừng động vào file của nhau là nó lỗi hết đấy
+
+//        adapterFrame = new AdapterListKhoanChi(this, R.layout.khoanchi_list);
+//
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
+//        adapterFrame.add(new ModelListKhoanChi(R.drawable.thucpham_icon, "Thực phẩm"));
         listView.setAdapter(adapterFrame);
     }
 }

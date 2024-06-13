@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     android:background="@drawable/dialog_white_corner"
@@ -22,6 +22,17 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <ImageView
+            android:id="@+id/imageIcon"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edt"
+            android:contentDescription="Icon Placeholder"
+            android:scaleType="fitXY"
+            android:src="@drawable/thucpham_icon" />
+
         <TextView
             android:id="@+id/txt_Themnhom"
             android:layout_width="match_parent"
@@ -38,23 +49,6 @@
             android:ems="10"
             android:inputType="text" />
 
-        <TextView
-            android:id="@+id/txtMota"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Mô tả"
-            android:textColor="@color/primary_color" />
-
-        <EditText
-            android:id="@+id/edtMota"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/edt"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:minLines="3" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,12 +56,11 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="20dp"
-        android:textAlignment="textEnd"
-        >
+        android:textAlignment="textEnd">
 
         <Space
             android:layout_width="100dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnHuy"
@@ -79,7 +72,7 @@
 
         <Space
             android:layout_width="8dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnLuu"
@@ -88,7 +81,7 @@
             android:layout_weight="1"
             android:backgroundTint="#3212FA"
             android:text="Lưu"
-            android:layout_marginRight="20dp"/>
-
+            android:layout_marginRight="20dp" />
     </LinearLayout>
 </LinearLayout>
+

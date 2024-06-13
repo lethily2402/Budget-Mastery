@@ -2,25 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondary_color"
+    android:background="#fff"
     android:orientation="vertical"
-    android:padding="16dp">
-
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Khoản chi" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Khoản thu" />
-
-    </com.google.android.material.tabs.TabLayout>
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Số tiền"
-            android:textColorHint="@color/primary_color" />
+            android:textColorHint="#ccc" />
 
         <Spinner
             android:id="@+id/spChonNhom"
@@ -49,6 +33,7 @@
             android:hint="Ghi chú"
             android:textColorHint="@color/primary_color" />
 
+
         <EditText
             android:id="@+id/edtNgayThang"
             android:layout_width="match_parent"
@@ -59,12 +44,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnLuu"
+        android:id="@+id/btnOk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/primary_color"
-        android:text="Lưu"
+        android:text="Lưu khoản chi"
         android:textSize="20sp" />
+
 
 </LinearLayout>

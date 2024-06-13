@@ -32,6 +32,7 @@
             android:layout_weight="1" />
 
         <ImageView
+            android:id="@+id/imgSearch"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:src="@drawable/search_icon" />

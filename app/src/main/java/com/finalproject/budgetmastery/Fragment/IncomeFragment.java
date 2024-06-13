@@ -2,48 +2,35 @@ package com.finalproject.budgetmastery.Fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.finalproject.budgetmastery.R;
 
 import java.util.Calendar;
 
-public class ExpenseFragment extends Fragment {
+
+public class IncomeFragment extends Fragment {
     Button btnLuu;
     EditText edtSoTien, edtGhiChu, edtNgayThang;
-    Spinner spChonNhom;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_khoan_chi, container, false);
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_khoan_thu, container, false);
         btnLuu = view.findViewById(R.id.btnOk);
-        spChonNhom = view.findViewById(R.id.spChonNhom);
         edtSoTien = view.findViewById(R.id.edtSoTien);
         edtGhiChu = view.findViewById(R.id.edtGhiChu);
         edtNgayThang = view.findViewById(R.id.edtNgayThang);
-
-//        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-//        DsKhoanChiFragment dsKhoanChiFragment = (DsKhoanChiFragment) fragmentManager.findFragmentById(R.id.listview_ds);
-//
-//        if (dsKhoanChiFragment != null) {
-//            List<String> items = dsKhoanChiFragment.getItems();
-//            ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, items);
-//            spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//            spChonNhom.setAdapter(spinnerAdapter);
-//        }
 
         edtNgayThang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,10 +45,8 @@ public class ExpenseFragment extends Fragment {
                 Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_LONG).show();
             }
         });
-
         return view;
     }
-
     private void showDatePickerDialog() {
         final Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
