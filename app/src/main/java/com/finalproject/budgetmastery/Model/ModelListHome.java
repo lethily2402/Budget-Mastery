@@ -8,6 +8,10 @@ public class ModelListHome implements Serializable {
     private String tvTitle;
     private String tvAmount;
 
+    // Default constructor required for calls to DataSnapshot.getValue(ModelListHome.class)
+    public ModelListHome(String selectedImageUri, String tenNhom) {
+    }
+
     public ModelListHome(String tvDate, String tvDay, String tvTitle, String tvAmount) {
         this.tvDate = tvDate;
         this.tvDay = tvDay;

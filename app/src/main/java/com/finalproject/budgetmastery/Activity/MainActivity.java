@@ -1,24 +1,22 @@
 package com.finalproject.budgetmastery.Activity;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.finalproject.budgetmastery.R;
+
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.finalproject.budgetmastery.Fragment.ExpenseFragment;
+import com.finalproject.budgetmastery.Fragment.AddFragment;
 import com.finalproject.budgetmastery.Fragment.HomeFragment;
 import com.finalproject.budgetmastery.Fragment.SettingFragment;
-import com.finalproject.budgetmastery.R;
 import com.finalproject.budgetmastery.Fragment.ReportFragment;
-import com.finalproject.budgetmastery.Adapter.ViewPagerAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (itemId == R.id.nav_report) {
                     selectedFragment = new ReportFragment();
                 } else if (itemId == R.id.nav_plus) {
-                    selectedFragment = new ExpenseFragment();
+                    selectedFragment = new AddFragment();
                 } else if (itemId == R.id.nav_setting) {
                     selectedFragment = new SettingFragment();
                 }

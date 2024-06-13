@@ -16,16 +16,15 @@
             android:layout_width="40dp"
             android:layout_height="30dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/thucpham_icon" />
+            android:src="@drawable/tienluong" />
 
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Thực phẩm"
+            android:text="Tiền lương"
             android:textColor="@color/primary_color"
             android:textSize="16sp" />
     </LinearLayout>
-
 </FrameLayout>

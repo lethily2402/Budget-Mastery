@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "308790551751",
+    "firebase_url": "https://budget-mastery-default-rtdb.firebaseio.com",
+    "project_id": "budget-mastery",
+    "storage_bucket": "budget-mastery.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308790551751:android:4d482c6680e4fd06e04ae2",
+        "android_client_info": {
+          "package_name": "com.finalproject.budgetmastery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIEL7Z8wJLcnl08ThozyzrgSRfw-g1y_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

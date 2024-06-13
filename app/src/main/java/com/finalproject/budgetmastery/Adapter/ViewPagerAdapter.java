@@ -1,31 +1,30 @@
 package com.finalproject.budgetmastery.Adapter;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import java.util.List;
+import com.finalproject.budgetmastery.Fragment.ExpenseFragment;
+import com.finalproject.budgetmastery.Fragment.IncomeFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
-    private final List<Fragment> fragmentList;
-
-    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity, List<Fragment> fragmentList) {
+    public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity)    {
         super(fragmentActivity);
-        this.fragmentList = fragmentList;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return fragmentList.get(position);
+        if (position == 1) {
+            return new IncomeFragment();
+        }
+        return new ExpenseFragment();
     }
 
     @Override
     public int getItemCount() {
-        return fragmentList.size();
+        return 2;
     }
 }
