@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/secondary_color"
     android:orientation="vertical"
-    tools:context=".KhoanChi">
+    tools:context=".Activity.KhoanChi">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"

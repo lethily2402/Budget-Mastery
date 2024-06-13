@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/secondary_color"
     android:orientation="vertical"
-    tools:context=".Home">
+    tools:context=".Activity.Home">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerMain"

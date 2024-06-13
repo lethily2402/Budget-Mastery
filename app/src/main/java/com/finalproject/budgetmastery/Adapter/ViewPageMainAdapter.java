@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.finalproject.budgetmastery.DsKhoanChi;
+import com.finalproject.budgetmastery.Activity.DsKhoanChi;
 import com.finalproject.budgetmastery.Fragment.HomeFragment;
-import com.finalproject.budgetmastery.KhoanChi;
+import com.finalproject.budgetmastery.Activity.KhoanChi;
 
 public class ViewPageMainAdapter extends FragmentStateAdapter {
 

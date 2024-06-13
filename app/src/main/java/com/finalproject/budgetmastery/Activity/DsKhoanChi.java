@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.finalproject.budgetmastery.Adapter.ViewPagerThuChiAdapter;
+import com.finalproject.budgetmastery.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.database.FirebaseDatabase;

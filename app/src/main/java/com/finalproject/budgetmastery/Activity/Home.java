@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Activity;
 
 //
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.finalproject.budgetmastery.Adapter.ViewPageMainAdapter;
+import com.finalproject.budgetmastery.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
