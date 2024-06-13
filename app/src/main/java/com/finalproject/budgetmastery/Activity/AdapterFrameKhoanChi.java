@@ -1,4 +1,4 @@
-package com.finalproject.budgetmastery;
+package com.finalproject.budgetmastery.Activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.List;
+import com.finalproject.budgetmastery.Model.ModelListLKhoanChi;
+import com.finalproject.budgetmastery.R;
 
 public class AdapterFrameKhoanChi extends ArrayAdapter<ModelListLKhoanChi> {
     Activity context;
@@ -32,7 +33,6 @@ public class AdapterFrameKhoanChi extends ArrayAdapter<ModelListLKhoanChi> {
         View customview = layoutInflater.inflate(this.resouce, null);
         ImageView image_icon = (ImageView) customview.findViewById(R.id.image_icon);
         TextView txt_title = (TextView) customview.findViewById(R.id.txt_title);
-
 
         ModelListLKhoanChi items = getItem(position);
 

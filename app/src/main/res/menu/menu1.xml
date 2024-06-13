@@ -1,27 +1,27 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/nav_home"
         android:enabled="true"
         android:icon="@drawable/home_icon"
-        android:title="Home"/>
+        android:title="Home" />
     <item
-        android:id="@+id/Vitien"
+        android:id="@+id/nav_wallet"
         android:enabled="true"
         android:icon="@drawable/vitien_icon"
-        android:title="Vi tien"/>
+        android:title="Ví tiền" />
     <item
-        android:id="@+id/cong"
+        android:id="@+id/nav_plus"
         android:enabled="true"
         android:icon="@drawable/plus_icon"
-        android:title="Vi tien"/>
+        android:title="Add" />
     <item
-        android:id="@+id/Thongke"
+        android:id="@+id/nav_report"
         android:enabled="true"
         android:icon="@drawable/thongke_icon"
-        android:title="Thống kê"/>
+        android:title="Thống kê" />
     <item
-        android:id="@+id/Caidat"
+        android:id="@+id/nav_setting"
         android:enabled="true"
         android:icon="@drawable/caidat_icon"
-        android:title="Cài đặt"/>
+        android:title="Cài đặt" />
 </menu>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <!-- Nền trắng -->
+    <solid android:color="#FFFFFF"/>
+
+    <!-- Bo tròn các góc -->
+    <corners android:radius="20dp"/>
+
+    <!-- Padding để đảm bảo bo viền chỉ ở trên -->
+    <padding android:left="0dp" android:top="2dp" android:right="0dp" android:bottom="0dp"/>
+</shape>
