@@ -1,13 +1,17 @@
 package com.finalproject.budgetmastery.Fragment;
 
-import android.app.Activity;
+import static android.app.Activity.RESULT_OK;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+
+import androidx.fragment.app.Fragment;
+
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,21 +22,18 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import com.finalproject.budgetmastery.Adapter.AdapterListKhoanChi;
 import com.finalproject.budgetmastery.Model.ModelListHome;
 import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
 import com.finalproject.budgetmastery.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,77 +44,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DsKhoanChiFragment extends Fragment {
 
-    private static final int PICK_IMAGE_REQUEST_CODE = 1;
+public class DsKhoanChiFragment extends Fragment {
     private ListView listView;
     private AdapterListKhoanChi adapter;
     private Button btnThemphanloai;
     private List<ModelListKhoanChi> listItems;
-    private ImageView imageIcon;
+    String imageUrl;
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri selectedImageUri;
+    ImageView imageIcon;
+    private DatabaseReference khoanChiRef;
 
-    private String selectedImageUri;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("Phanloai");
-
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ds_khoan_chi, container, false);
-
-
-
-        listItems = new ArrayList<>();
-
         listView = view.findViewById(R.id.listview_ds);
         btnThemphanloai = view.findViewById(R.id.btnThemphanloai);
+        listItems = new ArrayList<>();
 
         adapter = new AdapterListKhoanChi(requireContext(), R.layout.khoanchi_list, listItems);
         listView.setAdapter(adapter);
 
+        // Khởi tạo DatabaseReference
+        khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
 
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                listItems.clear();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    try {
-//                        // Log the raw data
-//                        Log.d("FirebaseData", snapshot.toString());
-//
-//                        // Retrieve data as a HashMap
-//                        Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
-//                        if (data != null) {
-//                            String selectedImageUri = (String) data.get("selectedImageUri");
-//                            String title = (String) data.get("title");
-//
-//                            // Create a ModelListHome object
-//                            ModelListKhoanChi expense = new ModelListKhoanChi(Uri.parse(selectedImageUri), title);
-//                            listItems.add(expense);
-//                        }
-//                    } catch (ClassCastException e) {
-//                        Log.e("FirebaseData", "Failed to convert data to ModelListHome", e);
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Handle possible errors
-//                Log.e("FirebaseData", "Database error: " + databaseError.getMessage());
-//            }
-//        });
-
-
+        // Load dữ liệu từ Firebase và hiển thị trong ListView
+        loadFirebaseData();
         btnThemphanloai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openThemDialog(Gravity.CENTER);
             }
         });
-
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -121,9 +86,38 @@ public class DsKhoanChiFragment extends Fragment {
                 return true;
             }
         });
-
         return view;
     }
+
+    private void loadFirebaseData() {
+        khoanChiRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                adapter.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    try {
+                        Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
+                        if (data != null) {
+                            String imageUri = (String) data.get("imageUri");
+                            String tenNhom = (String) data.get("txt_title");
+
+                            // Create a ModelListKhoanChi object
+                            ModelListKhoanChi expense = new ModelListKhoanChi(imageUri, tenNhom);
+                            adapter.add(expense);
+                        }
+                    } catch (ClassCastException e) {
+                        Log.e("FirebaseData", "Failed to convert data to ModelListKhoanChi", e);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("FirebaseData", "Database error: " + databaseError.getMessage());
+            }
+        });
+    }
+
 
     private void openThemDialog(int gravity) {
         final Dialog dialog = new Dialog(requireContext());
@@ -140,20 +134,11 @@ public class DsKhoanChiFragment extends Fragment {
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
         windowAttributes.gravity = gravity;
         window.setAttributes(windowAttributes);
-
-        imageIcon = dialog.findViewById(R.id.imageIcon);
+        ImageView imageView = dialog.findViewById(R.id.imageIcon);
         EditText edtThemnhom = dialog.findViewById(R.id.edtThemnhom);
         Button btnHuy = dialog.findViewById(R.id.btnHuy);
         Button btnLuu = dialog.findViewById(R.id.btnLuu);
-
-        imageIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE);
-            }
-        });
-
+        imageIcon = imageView;
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,32 +146,85 @@ public class DsKhoanChiFragment extends Fragment {
             }
         });
 
+//        btnLuu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
+//                dialog.dismiss();
+//            }
+//        });
+        // Sự kiện khi nhấn nút "Lưu" trong dialog
+//        btnLuu.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Lấy đường dẫn ảnh từ ImageView (imageUrl)
+//                // Tạo đối tượng ModelListKhoanChi với đường dẫn ảnh và tên nhóm
+//                String tenNhom = edtThemnhom.getText().toString();
+//
+//                ModelListKhoanChi newItem = new ModelListKhoanChi(imageUrl, tenNhom);
+//
+//                // Đường dẫn tới node "khoanChi" trong Realtime Database
+//                DatabaseReference khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
+//
+//                // Push dữ liệu mới lên Realtime Database
+//                String newItemKey = khoanChiRef.push().getKey();
+//                khoanChiRef.child(newItemKey).setValue(newItem);
+//
+//                // Hiển thị thông báo và đóng dialog
+//                Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
+//                dialog.dismiss();
+//            }
+//        });
+
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (selectedImageUri != null) {
-                    String title = edtThemnhom.getText().toString();
-                    if (!title.isEmpty()) {
-                        ModelListKhoanChi khoanChi = new ModelListKhoanChi(selectedImageUri, title);
-                        myRef.push().setValue(khoanChi).addOnCompleteListener(new OnCompleteListener<Void>() {
+                // Lấy tên nhóm từ EditText
+                String tenNhom = edtThemnhom.getText().toString().trim();
+                if (tenNhom.isEmpty()) {
+                    Toast.makeText(requireContext(), "Vui lòng nhập tên nhóm", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Kiểm tra xem đã chọn ảnh chưa
+                if (selectedImageUri == null) {
+                    Toast.makeText(requireContext(), "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Tạo đối tượng ModelListKhoanChi với đường dẫn ảnh và tên nhóm
+                ModelListKhoanChi newItem = new ModelListKhoanChi(selectedImageUri.toString(), tenNhom);
+
+                // Đường dẫn tới node "khoanChi" trong Realtime Database
+                DatabaseReference khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
+
+                // Push dữ liệu mới lên Realtime Database
+                String newItemKey = khoanChiRef.push().getKey();
+                khoanChiRef.child(newItemKey).setValue(newItem)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("FirebaseSuccess", "Data saved successfully");
-                                    Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                } else {
-                                    Log.e("FirebaseError", "Failed to save data", task.getException());
-                                    Toast.makeText(requireContext(), "Lưu thất bại", Toast.LENGTH_SHORT).show();
-                                }
+                            public void onSuccess(Void aVoid) {
+                                // Hiển thị thông báo khi lưu thành công và đóng dialog
+                                Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Hiển thị thông báo khi lưu thất bại
+                                Toast.makeText(requireContext(), "Lưu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
-                    } else {
-                        Toast.makeText(requireContext(), "Vui lòng nhập tiêu đề", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
-                }
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Mở trình chọn ảnh từ thư viện của thiết bị
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         });
 
@@ -194,14 +232,14 @@ public class DsKhoanChiFragment extends Fragment {
         dialog.show();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri uri;
-        if (requestCode == PICK_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            uri = data.getData();
-            selectedImageUri = uri.toString();
-            imageIcon.setImageURI(uri);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+
+            // Cập nhật ảnh được chọn vào ImageView
+            imageIcon.setImageURI(selectedImageUri);
+
         }
     }
 
@@ -221,8 +259,9 @@ public class DsKhoanChiFragment extends Fragment {
         windowAttributes.gravity = Gravity.CENTER;
         window.setAttributes(windowAttributes);
 
-        Button btnHuy = dialog.findViewById(R.id.btnHuy);
-        Button btnXoa = dialog.findViewById(R.id.btnLuu);
+        TextView textView = dialog.findViewById(R.id.textView8);
+        Button btnHuy = dialog.findViewById(R.id.btnBoqua);
+        Button btnXoa = dialog.findViewById(R.id.btnOk);
 
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +269,7 @@ public class DsKhoanChiFragment extends Fragment {
                 dialog.dismiss();
             }
         });
+
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

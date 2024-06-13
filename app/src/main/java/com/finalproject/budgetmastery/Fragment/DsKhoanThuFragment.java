@@ -28,12 +28,12 @@ import com.finalproject.budgetmastery.R;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class DsKhoanThuFragment extends Fragment {
     private ListView listView;
     private AdapterListKhoanThu adapter;
     private Button btnThemphanloai;
     private List<ModelListKhoanThu> listItems;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class DsKhoanThuFragment extends Fragment {
         listItems.add(new ModelListKhoanThu(R.drawable.tienluong, "Tiền lương"));
         listItems.add(new ModelListKhoanThu(R.drawable.tienluong, "Tiền lương"));
 
-        adapter = new AdapterListKhoanThu(requireContext(), R.layout.khoanthu_list , listItems);
+        adapter = new AdapterListKhoanThu(requireContext(), R.layout.khoanthu_list, listItems);
         listView.setAdapter(adapter);
         btnThemphanloai.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,8 @@ public class DsKhoanThuFragment extends Fragment {
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
         windowAttributes.gravity = gravity;
         window.setAttributes(windowAttributes);
-        ImageView imageView = dialog.findViewById(R.id.imageView);
+
+        ImageView imageView = dialog.findViewById(R.id.imageIcon);
         EditText edtThemnhom = dialog.findViewById(R.id.edtThemnhom);
         Button btnHuy = dialog.findViewById(R.id.btnHuy);
         Button btnLuu = dialog.findViewById(R.id.btnLuu);
@@ -100,9 +101,9 @@ public class DsKhoanThuFragment extends Fragment {
             }
         });
 
-
         dialog.show();
     }
+
     private void showDeleteDialog(final int position) {
         final Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -120,8 +121,8 @@ public class DsKhoanThuFragment extends Fragment {
         window.setAttributes(windowAttributes);
 
         TextView textView = dialog.findViewById(R.id.textView8);
-        Button btnHuy = dialog.findViewById(R.id.btnHuy);
-        Button btnXoa = dialog.findViewById(R.id.btnLuu);
+        Button btnHuy = dialog.findViewById(R.id.btnBoqua);
+        Button btnXoa = dialog.findViewById(R.id.btnOk);
 
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override

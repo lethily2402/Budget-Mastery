@@ -2,6 +2,7 @@ package com.finalproject.budgetmastery.Adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
 import com.finalproject.budgetmastery.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,11 +39,16 @@ public class AdapterListKhoanChi extends ArrayAdapter<ModelListKhoanChi> {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
+
         ImageView imageIcon = convertView.findViewById(R.id.image_icon);
         TextView txtTitle = convertView.findViewById(R.id.txt_title);
         ModelListKhoanChi item = getItem(position);
         if (item != null) {
-            imageIcon.setImageURI(item.getImageUri());
+            Log.d("FirebaseData", "Image URI: " + item.getImageUri());
+            Glide.with(context)
+                    .load(Uri.parse(item.getImageUri()))
+                    .into(imageIcon);
+
             txtTitle.setText(item.getTxt_title());
         }
 

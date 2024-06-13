@@ -27,7 +27,7 @@ public class KhoanThuFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_khoan_thu, container, false);
-        btnLuu = view.findViewById(R.id.btnLuu);
+        btnLuu = view.findViewById(R.id.btnOk);
         edtSoTien = view.findViewById(R.id.edtSoTien);
         edtGhiChu = view.findViewById(R.id.edtGhiChu);
         edtNgayThang = view.findViewById(R.id.edtNgayThang);
