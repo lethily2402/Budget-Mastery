@@ -1,6 +1,14 @@
 package com.finalproject.budgetmastery.Activity;
 
+import static com.finalproject.budgetmastery.Service.OTPGenerators.generateOTP;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +17,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.finalproject.budgetmastery.R;
+import com.finalproject.budgetmastery.Service.GmailSender;
 
 public class PincodeActivity extends AppCompatActivity {
+    String OTP;
+
+    Button btnAccept, btnResend;
+    EditText etCode;
+    String email, userCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,5 +36,55 @@ public class PincodeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Intent intent = getIntent();
+        email = intent.getStringExtra("email");;
+        OTP = generateOTP();
+        sendOTPEmail(email, OTP);
+        etCode = findViewById(R.id.etCode);
+        btnAccept = findViewById(R.id.btnAccept);
+        btnResend = findViewById(R.id.btnResend);
+
+
+        btnAccept.setOnClickListener(v -> {
+            userCode = etCode.getText().toString();
+            if (OTP.equals(userCode)) {
+                Intent intent2 = new Intent(PincodeActivity.this, UpdatepassActivity.class);
+                startActivity(intent2);
+            } else {
+                Toast.makeText(this, "Sai", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnResend.setOnClickListener(v -> {
+            ResendPassword();
+        });
+
+
+
     }
+
+    private void sendOTPEmail(String email, String otp) {
+        String subject = "Budget Mastery";
+        String message = otp;
+
+        new Thread(() -> {
+            boolean emailSent = GmailSender.sendEmail(email, subject, message);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                if (emailSent) {
+                    Toast.makeText(this, "Chúng tôi đã gửi mã OTP đến email của bạn!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Gửi mã OTP thất bại!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
+    }
+
+    private void ResendPassword() {
+        OTP = generateOTP();
+        sendOTPEmail(email, OTP);
+    }
+
+
+
 }

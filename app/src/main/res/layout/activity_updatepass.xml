@@ -41,18 +41,19 @@
                     android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Mật khẩu mới"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    />
 
                 <EditText
+                    android:id="@+id/edt_up_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:hint="Mat khau"
                     android:layout_marginBottom="4dp"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
                     android:padding="4dp"
-                    />
+                    android:textSize="20sp"
+                    android:inputType="textPassword"/>
             </LinearLayout>
 
 
@@ -70,13 +71,14 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_re_up_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="VD: Lethilyy2402@gmail.com"
-                    android:textSize="20sp"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
-                    android:padding="4dp"/>
+                    android:padding="4dp"
+                    android:textSize="20sp"
+                    android:inputType="textPassword"/>
 
             </LinearLayout>
 
@@ -87,7 +89,7 @@
 
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btn_save"
                     android:layout_width="141sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

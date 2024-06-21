@@ -41,14 +41,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Họ và tên"
+                    android:text="Tên đăng nhập"
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#DFF7E2"
                     android:background="@drawable/rounded_input"
+                    android:backgroundTint="#DFF7E2"
                     android:hint="VD: Lê Thị Lý"
                     android:padding="4dp" />
             </LinearLayout>
@@ -68,11 +69,13 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
 
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
-                    android:background="@drawable/rounded_input"                    android:hint="Lethilyy2402@gmail.com"
+                    android:hint="abc@gmail.com"
                     android:padding="4dp" />
             </LinearLayout>
 
@@ -91,12 +94,14 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#DFF7E2"
                     android:background="@drawable/rounded_input"
+                    android:backgroundTint="#DFF7E2"
                     android:hint="Mat khau"
-                    android:padding="4dp" />
+                    android:padding="4dp"
+                    android:inputType="textPassword"/>
             </LinearLayout>
 
             <LinearLayout
@@ -114,12 +119,14 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_re_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#DFF7E2"
                     android:background="@drawable/rounded_input"
+                    android:backgroundTint="#DFF7E2"
                     android:hint="Mat khau"
-                    android:padding="4dp" />
+                    android:padding="4dp"
+                    android:inputType="textPassword"/>
             </LinearLayout>
 
 
@@ -137,10 +144,11 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_sdt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#DFF7E2"
                     android:background="@drawable/rounded_input"
+                    android:backgroundTint="#DFF7E2"
                     android:hint="VD: 0702083027"
                     android:padding="4dp" />
 
@@ -153,7 +161,7 @@
 
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/btnResend"
                     android:layout_width="141dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00D09E"
-  >
-
+    tools:context=".Activity.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_main"
@@ -41,15 +40,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Tên đăng nhập hoặc Email"
+                    android:text="Email"
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
-                    android:hint="Ten dang nhap/Email"
+                    android:hint="Nhap email"
                     android:padding="10dp"
                     android:textSize="22sp" />
             </LinearLayout>
@@ -69,13 +69,15 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/edt_pword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
                     android:hint="Mat khau"
                     android:padding="10dp"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:inputType="textPassword"/>
             </LinearLayout>
 
             <LinearLayout
@@ -83,9 +85,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnAccept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -98,7 +99,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/tv_forgotpw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -109,17 +110,29 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="20sp"
-                android:padding="10dp"
-                android:text="Bạn chưa có tài khoản?"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Bạn chưa có tài khoản?"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/txt_l_dangky"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đăng ký"
+                    android:textAlignment="textStart"
+                    android:textColor="#2196F3" />
+            </LinearLayout>
 
         </LinearLayout>
 

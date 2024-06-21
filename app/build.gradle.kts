@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.androidApplication)
     id("com.google.gms.google-services")
-
 }
 
 android {
@@ -14,7 +13,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -34,6 +32,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    packagingOptions {
+        resources {
+            excludes += setOf("META-INF/LICENSE.md", "META-INF/NOTICE.md")
+        }
+    }
 }
 
 dependencies {
@@ -43,25 +47,21 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.firebase.auth)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.firestore)
-    implementation ("com.squareup.picasso:picasso:2.71828")
-    implementation(libs.firebase.storage)
-//    implementation(libs.picasso)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
-    implementation("com.google.firebase:firebase-firestore")
-    implementation ("com.google.firebase:firebase-firestore:24.4.0")
-    implementation ("com.google.firebase:firebase-database:20.0.4")
-    implementation ("com.google.firebase:firebase-storage:20.0.0")
-    implementation ("com.google.firebase:firebase-core:21.1.1")
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+    // JavaMail
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
 
 }

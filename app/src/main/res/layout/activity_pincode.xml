@@ -24,6 +24,7 @@
         tools:layout_editor_absoluteY="154dp">
 
         <LinearLayout
+            android:id="@+id/edt_pin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -43,15 +44,15 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/etCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:hint="015401"
                     android:layout_marginBottom="4dp"
-                    android:padding="4dp"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
-                    />
+                    android:hint="015401"
+                    android:padding="10dp"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -60,38 +61,38 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnAccept"
                     android:layout_width="141sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="100dp"
                     android:backgroundTint="@color/primary_color"
                     android:text="Chấp nhận"
-                    android:textSize="18sp"
                     android:textColor="@color/black"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/btnResend"
                     android:layout_width="141dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:backgroundTint="@color/secondary_color"
                     android:layout_marginTop="80sp"
+                    android:backgroundTint="@color/secondary_color"
                     android:text="Gửi lại"
-                    android:textSize="18sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="hoặc đăng ký với"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20sp"
                 android:layout_marginTop="20sp"
+                android:layout_marginBottom="20sp"
+                android:text="hoặc đăng ký với"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
