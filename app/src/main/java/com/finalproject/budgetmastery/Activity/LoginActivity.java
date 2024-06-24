@@ -1,6 +1,5 @@
 package com.finalproject.budgetmastery.Activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
