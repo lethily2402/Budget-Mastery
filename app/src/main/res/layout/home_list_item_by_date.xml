@@ -5,69 +5,81 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/secondary_color"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/secondary_color"
         android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="22/04/2024"
-
-                android:textAppearance="?textAppearanceHeadline6"
-                android:textColor="@color/primary_color" />
-
-            <TextView
-                android:id="@+id/tvDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thứ sáu"
-                android:textAppearance="?textAppearanceHeadline6"
-                android:textColor="@color/primary_color" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:srcCompat="@drawable/thucpham_icon"
+                android:layout_gravity="center_vertical"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingStart="5dp">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    app:srcCompat="@drawable/thucpham_icon" />
-
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Ăn uống"
-                    android:textColor="@color/primary_color" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tvAmount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="-100000"
-                    android:textColor="@color/primary_color" />
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ăn uống"
+                        android:textColor="@color/primary_color" />
+
+                    <TextView
+                        android:id="@+id/tvAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-100000"
+                        android:textColor="@color/primary_color" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="22/04/2024"
+
+                        android:textAppearance="?textAppearanceHeadline6"
+                        android:textColor="@color/primary_color"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Thứ sáu"
+                        android:textAppearance="?textAppearanceHeadline6"
+                        android:textColor="@color/primary_color"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
             </LinearLayout>
 

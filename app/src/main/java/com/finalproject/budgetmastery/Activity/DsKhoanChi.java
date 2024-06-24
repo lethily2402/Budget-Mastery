@@ -1,5 +1,9 @@
 package com.finalproject.budgetmastery.Activity;
 
+
+import static com.finalproject.budgetmastery.R.id.tabLayout1;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +31,7 @@ public class DsKhoanChi extends Fragment {
 
 
         tabLayout1 = view.findViewById(R.id.tabLayout1);
-        ViewPager2 viewPager = view.findViewById(R.id.viewPagerList);
+      ViewPager2 viewPager = view.findViewById(R.id.viewPagerList);
 
         ViewPagerThuChiAdapter adapter = new ViewPagerThuChiAdapter(requireActivity());
         viewPager.setAdapter(adapter);

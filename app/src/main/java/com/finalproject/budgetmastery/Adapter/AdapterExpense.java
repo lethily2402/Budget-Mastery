@@ -1,7 +1,7 @@
-// AdapterListHome.java
 package com.finalproject.budgetmastery.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.finalproject.budgetmastery.Model.ModelListHome;
@@ -19,29 +18,26 @@ import com.finalproject.budgetmastery.R;
 
 import java.util.List;
 
-public class AdapterListHome extends ArrayAdapter<ModelListHome> {
-
-    private final LayoutInflater inflater;
-    private final List<ModelListHome> items;
-    private final Context context;
-
-    public AdapterListHome(Context context, int resource, List<ModelListHome> items) {
-        super(context, resource, items);
-        this.inflater = LayoutInflater.from(context);
-        this.items = items;
+public class AdapterExpense extends ArrayAdapter<ModelListHome> {
+    private Context context;
+    private int resource;
+    private List<ModelListHome> expenses;
+    public AdapterExpense(Context context, int resource, List<ModelListHome> expenses) {
+        super(context, resource, expenses);
         this.context = context;
+        this.resource = resource;
+        this.expenses = expenses;
     }
-
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.home_list_item_by_date, parent, false);
+            convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
 
-        ModelListHome item = getItem(position);
+        ModelListHome expense  = expenses.get(position);
 
-        if (item != null) {
+        if (expense != null) {
             ImageView imageView = convertView.findViewById(R.id.imageView);
             TextView textViewDate = convertView.findViewById(R.id.tvDate);
             TextView textViewDay = convertView.findViewById(R.id.tvDay);
@@ -49,22 +45,23 @@ public class AdapterListHome extends ArrayAdapter<ModelListHome> {
             TextView textViewAmount = convertView.findViewById(R.id.tvAmount);
 
             // Hiển thị dữ liệu lên views
-            textViewDate.setText(item.getTvDate());
-            textViewDay.setText(item.getTvDay());
-            textViewTitle.setText(item.getTvTitle());
-            textViewAmount.setText(item.getTvAmount());
+            textViewDate.setText(expense.getTvDate());
+            textViewDay.setText(expense.getTvDay());
+            textViewTitle.setText(expense.getTvTitle());
+            textViewAmount.setText(expense.getTvAmount());
 
-            if (item.getImageUri() != null && !item.getImageUri().isEmpty()) {
-                Glide.with(getContext()).load(item.getImageUri()).into(imageView);
+            if (expense.getImageUri() != null && !expense.getImageUri().isEmpty()) {
+                Glide.with(getContext()).load(expense.getImageUri()).into(imageView);
             } else {
                 imageView.setImageResource(R.drawable.thucpham_icon);
             }
-            Log.d("AdapterListHome", "Image URI: " + item.getImageUri());
+            Log.d("AdapterListHome", "Image URI: " + expense.getImageUri());
 
-
+            convertView.setBackgroundColor(Color.TRANSPARENT);
 
         }
 
         return convertView;
     }
 }
+

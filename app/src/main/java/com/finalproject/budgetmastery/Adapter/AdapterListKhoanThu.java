@@ -1,6 +1,8 @@
 package com.finalproject.budgetmastery.Adapter;
 
 import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.finalproject.budgetmastery.Model.ModelListKhoanThu;
 import com.finalproject.budgetmastery.R;
 
@@ -38,7 +41,10 @@ public class AdapterListKhoanThu extends ArrayAdapter<ModelListKhoanThu> {
         TextView txtTitle = convertView.findViewById(R.id.txt_title);
         ModelListKhoanThu item = getItem(position);
         if (item != null) {
-            imageIcon.setImageResource(item.getImage_icon());
+            Log.d("FirebaseData", "Image URI: " + item.getImageUri());
+            Glide.with(context)
+                    .load(Uri.parse(item.getImageUri()))
+                    .into(imageIcon);
             txtTitle.setText(item.getTxt_title());
         }
         return convertView;

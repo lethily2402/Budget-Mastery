@@ -8,9 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,12 +19,14 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.finalproject.budgetmastery.Adapter.AdapterExpense;
 import com.finalproject.budgetmastery.Adapter.AdapterListKhoanChi;
 import com.finalproject.budgetmastery.Model.ModelListHome;
 import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
@@ -50,7 +49,6 @@ public class DsKhoanChiFragment extends Fragment {
     private AdapterListKhoanChi adapter;
     private Button btnThemphanloai;
     private List<ModelListKhoanChi> listItems;
-    String imageUrl;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri selectedImageUri;
     ImageView imageIcon;
@@ -86,8 +84,76 @@ public class DsKhoanChiFragment extends Fragment {
                 return true;
             }
         });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ModelListKhoanChi selectedItem = listItems.get(position);
+                showExpensesDialog(selectedItem.getTxt_title());
+            }
+        });
+
         return view;
     }
+
+    private void showExpensesDialog(String category) {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_chitiet_khoanchi);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(window.getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity = Gravity.CENTER;
+        window.setAttributes(layoutParams);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ListView listViewExpenses = dialog.findViewById(R.id.listViewExpenses);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        TextView tvTitle = dialog.findViewById(R.id.tvTitle);
+
+        List<ModelListHome> expenseList = new ArrayList<>();
+        AdapterExpense adapter = new AdapterExpense(requireContext(), R.layout.home_list_item_by_date, expenseList);
+        listViewExpenses.setAdapter(adapter);
+
+        DatabaseReference expensesRef = FirebaseDatabase.getInstance().getReference().child("khoanChi").child(category).child("expenses");
+
+        expensesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                expenseList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ModelListHome expense = snapshot.getValue(ModelListHome.class);
+                    if (expense != null) {
+                        expenseList.add(expense);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(requireContext(), "Failed to load expenses: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+
 
     private void loadFirebaseData() {
         khoanChiRef.addValueEventListener(new ValueEventListener() {
@@ -100,24 +166,45 @@ public class DsKhoanChiFragment extends Fragment {
                         if (data != null) {
                             String imageUri = (String) data.get("imageUri");
                             String tenNhom = (String) data.get("txt_title");
+                            String key = snapshot.getKey(); // Lấy key từ snapshot
 
-                            // Create a ModelListKhoanChi object
-                            ModelListKhoanChi expense = new ModelListKhoanChi(imageUri, tenNhom);
-                            adapter.add(expense);
+                            if (imageUri != null && tenNhom != null) {
+                                // Tạo đối tượng ModelListKhoanChi với key
+                                ModelListKhoanChi expense = new ModelListKhoanChi(imageUri, tenNhom, key);
+                                adapter.add(expense);
+                            } else {
+                                Log.w("FirebaseData", "Item có dữ liệu null bị bỏ qua: " + snapshot.getKey());
+                            }
                         }
                     } catch (ClassCastException e) {
-                        Log.e("FirebaseData", "Failed to convert data to ModelListKhoanChi", e);
+                        Log.e("FirebaseData", "Chuyển đổi dữ liệu sang ModelListKhoanChi thất bại", e);
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("FirebaseData", "Database error: " + databaseError.getMessage());
+                Log.e("FirebaseData", "Lỗi cơ sở dữ liệu: " + databaseError.getMessage());
             }
         });
     }
 
+
+    private void deleteItemFromFirebase(String key) {
+        khoanChiRef.child(key).removeValue()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(requireContext(), "Xóa thành công", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(requireContext(), "Xóa thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     private void openThemDialog(int gravity) {
         final Dialog dialog = new Dialog(requireContext());
@@ -134,6 +221,7 @@ public class DsKhoanChiFragment extends Fragment {
         WindowManager.LayoutParams windowAttributes = window.getAttributes();
         windowAttributes.gravity = gravity;
         window.setAttributes(windowAttributes);
+
         ImageView imageView = dialog.findViewById(R.id.imageIcon);
         EditText edtThemnhom = dialog.findViewById(R.id.edtThemnhom);
         Button btnHuy = dialog.findViewById(R.id.btnHuy);
@@ -145,36 +233,6 @@ public class DsKhoanChiFragment extends Fragment {
                 dialog.dismiss();
             }
         });
-
-//        btnLuu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
-//                dialog.dismiss();
-//            }
-//        });
-        // Sự kiện khi nhấn nút "Lưu" trong dialog
-//        btnLuu.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Lấy đường dẫn ảnh từ ImageView (imageUrl)
-//                // Tạo đối tượng ModelListKhoanChi với đường dẫn ảnh và tên nhóm
-//                String tenNhom = edtThemnhom.getText().toString();
-//
-//                ModelListKhoanChi newItem = new ModelListKhoanChi(imageUrl, tenNhom);
-//
-//                // Đường dẫn tới node "khoanChi" trong Realtime Database
-//                DatabaseReference khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
-//
-//                // Push dữ liệu mới lên Realtime Database
-//                String newItemKey = khoanChiRef.push().getKey();
-//                khoanChiRef.child(newItemKey).setValue(newItem);
-//
-//                // Hiển thị thông báo và đóng dialog
-//                Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
-//                dialog.dismiss();
-//            }
-//        });
 
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,13 +250,14 @@ public class DsKhoanChiFragment extends Fragment {
                 }
 
                 // Tạo đối tượng ModelListKhoanChi với đường dẫn ảnh và tên nhóm
-                ModelListKhoanChi newItem = new ModelListKhoanChi(selectedImageUri.toString(), tenNhom);
+                ModelListKhoanChi newItem = new ModelListKhoanChi(selectedImageUri.toString(), tenNhom, null);
 
                 // Đường dẫn tới node "khoanChi" trong Realtime Database
                 DatabaseReference khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
 
                 // Push dữ liệu mới lên Realtime Database
                 String newItemKey = khoanChiRef.push().getKey();
+                newItem.setKey(newItemKey);
                 khoanChiRef.child(newItemKey).setValue(newItem)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -228,18 +287,20 @@ public class DsKhoanChiFragment extends Fragment {
             }
         });
 
-
         dialog.show();
     }
 
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             selectedImageUri = data.getData();
 
             // Cập nhật ảnh được chọn vào ImageView
-            imageIcon.setImageURI(selectedImageUri);
-
+            if (imageIcon != null) {
+                imageIcon.setImageURI(selectedImageUri);
+            }
         }
     }
 
@@ -273,13 +334,23 @@ public class DsKhoanChiFragment extends Fragment {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Lấy item hiện tại
+                ModelListKhoanChi item = listItems.get(position);
+
+                // Xóa item từ Firebase
+                deleteItemFromFirebase(item.getKey());
+
+                // Xóa item từ list và cập nhật adapter
                 listItems.remove(position);
                 adapter.notifyDataSetChanged();
-                Toast.makeText(requireContext(), "Xóa thành công", Toast.LENGTH_SHORT).show();
+
                 dialog.dismiss();
             }
         });
 
         dialog.show();
     }
+
 }
+
+

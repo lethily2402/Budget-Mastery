@@ -164,7 +164,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/thunhap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -196,7 +196,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/Sotienconlai"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"

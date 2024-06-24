@@ -6,7 +6,12 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.finalproject.budgetmastery.Activity.DsKhoanChi;
+import com.finalproject.budgetmastery.Fragment.AddFragment;
+import com.finalproject.budgetmastery.Fragment.DsKhoanChiFragment;
+import com.finalproject.budgetmastery.Fragment.ExpenseFragment;
 import com.finalproject.budgetmastery.Fragment.HomeFragment;
+import com.finalproject.budgetmastery.Fragment.ReportFragment;
+import com.finalproject.budgetmastery.Fragment.SettingFragment;
 
 public class ViewPageMainAdapter extends FragmentStateAdapter {
 
@@ -19,11 +24,14 @@ public class ViewPageMainAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-//                return new KhoanChi();
+                 return new DsKhoanChi();
             case 2:
-//               return new ThongKeFragment();
+                return new AddFragment();
             case 3:
-                return new DsKhoanChi();
+                return new ReportFragment();
+            case 4:
+                return new SettingFragment();
+
             default:
                 return new HomeFragment();
         }
@@ -31,7 +39,7 @@ public class ViewPageMainAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 4; // Số lượng Fragment trong ViewPager2
+        return 5; // Số lượng Fragment trong ViewPager2
     }
 }
 

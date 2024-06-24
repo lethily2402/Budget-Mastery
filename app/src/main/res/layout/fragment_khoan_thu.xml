@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    android:padding="20dp"
     tools:context=".Fragment.IncomeFragment">
 
     <LinearLayout
@@ -17,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Số tiền"
-            android:textColorHint="@color/primary_color" />
+            android:textColorHint="@color/primary_color"/>
 
         <Spinner
             android:id="@+id/spChonNhom"
@@ -50,7 +48,7 @@
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/primary_color"
             android:text="Lưu khoản thu"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
