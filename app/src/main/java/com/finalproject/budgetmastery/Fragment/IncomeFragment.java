@@ -58,11 +58,9 @@ public class IncomeFragment extends Fragment {
         edtGhiChu = view.findViewById(R.id.edtGhiChu);
         edtNgayThang = view.findViewById(R.id.edtNgayThang);
 
-        // Initialize expense list
         khoanThuList = new ArrayList<>();
         incomeList = new ArrayList<>();
 
-        // Reference to "khoanChi" node in Firebase
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
@@ -74,9 +72,6 @@ public class IncomeFragment extends Fragment {
         } else {
             Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
         }
-
-
-        // Load data from Firebase and update Spinner
         loadFirebaseData();
 
         edtNgayThang.setOnClickListener(new View.OnClickListener() {
@@ -156,16 +151,11 @@ public class IncomeFragment extends Fragment {
         }
 
         String nhom = selectedItem.getTxt_title();
-        String imageUri = selectedItem.getImageUri(); // Assuming imageUri is already set correctly
+        String imageUri = selectedItem.getImageUri();
 
-        // Reference to specific category node under "users/{userId}/addkhoanchi/{category}/income"
         String userId = currentUser.getUid();
-
-
         DatabaseReference detailRef = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(userId).child("chitietkhoanthu").child(nhom).child("income");
-
-        // Save data under "users/{userId}/addkhoanchi/{category}/income" node
         String tvDay = parseDayFromDate(ngayThang);
         ModelListHome newKhoanThu = new ModelListHome(ngayThang, tvDay, nhom, soTien, imageUri);
         String id = userKhoanThuRef.push().getKey();
@@ -174,7 +164,6 @@ public class IncomeFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        // Also save to detailed node
                         detailRef.child(id).setValue(newKhoanThu).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -200,7 +189,7 @@ public class IncomeFragment extends Fragment {
         edtSoTien.setText("");
         edtGhiChu.setText("");
         edtNgayThang.setText("");
-        spChonNhom.setSelection(0); // Reset Spinner to the first value
+        spChonNhom.setSelection(0);
     }
 
     private String parseDayFromDate(String dateString) {

@@ -16,7 +16,7 @@
         android:layout_marginTop="20dp"
         android:text="Báo cáo chi tiêu"
         android:textColor="@color/primary_color"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

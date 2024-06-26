@@ -52,7 +52,6 @@ public class SearchActivity extends AppCompatActivity {
         adapter = new AdapterSearch(this, R.layout.home_list_item_by_date, currentFilteredList);
         lvThuchi.setAdapter(adapter);
 
-        // Thiết lập Firebase
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
@@ -63,8 +62,6 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             Toast.makeText(SearchActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
         }
-
-        // Xử lý tìm kiếm khi thay đổi nội dung trong EditText
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,28 +74,22 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 String searchText = s.toString().toLowerCase().trim();
-                performSearch(searchText); // Thực hiện tìm kiếm với từ khóa mới
+                performSearch(searchText);
             }
         });
 
-        // Xử lý sự kiện khi ImageButton được click
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String searchText = etSearch.getText().toString().toLowerCase().trim();
-                performSearch(searchText); // Thực hiện tìm kiếm với từ khóa từ EditText
-
-                // Hiển thị thông báo khi nhấn nút
+                performSearch(searchText);
                 Toast.makeText(SearchActivity.this, "Searching for: " + searchText, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void loadDataFromFirebase() {
-        // Clear danh sách gốc trước khi tải dữ liệu mới
         originalList.clear();
-
-        // Tải dữ liệu từ addkhoanchi
         databaseReference.child("addkhoanchi").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -109,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
                         originalList.add(item);
                     }
                 }
-                adapter.notifyDataSetChanged(); // Cập nhật adapter sau khi tải dữ liệu
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -117,8 +108,6 @@ public class SearchActivity extends AppCompatActivity {
                 Toast.makeText(SearchActivity.this, "Error loading data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Tải dữ liệu từ addkhoanthu
         databaseReference.child("addkhoanthu").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -129,7 +118,7 @@ public class SearchActivity extends AppCompatActivity {
                         originalList.add(item);
                     }
                 }
-                adapter.notifyDataSetChanged(); // Cập nhật adapter sau khi tải dữ liệu
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -140,33 +129,31 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void performSearch(String searchText) {
-        currentFilteredList.clear(); // Xóa dữ liệu trong danh sách lọc hiện tại
+        currentFilteredList.clear();
 
         if (searchText.isEmpty()) {
-            currentFilteredList.addAll(originalList); // Nếu không có từ khóa tìm kiếm, hiển thị tất cả các mục
+            currentFilteredList.addAll(originalList);
         } else {
-            String[] keywords = searchText.split("\\s+"); // Chia chuỗi nhập thành các từ
+            String[] keywords = searchText.split("\\s+");
 
             for (ModelListHome item : originalList) {
                 boolean match = false;
 
                 for (String keyword : keywords) {
-                    // Sử dụng regex cho tìm kiếm linh hoạt hơn
                     String regex = ".*" + keyword.toLowerCase() + ".*";
                     if (item.getTvAmount().toLowerCase().matches(regex)
                             || item.getTvTitle().toLowerCase().matches(regex)
                             || item.getTvDate().toLowerCase().matches(regex)) {
                         match = true;
-                        break; // Nếu có ít nhất một từ trùng khớp thì thoát
+                        break;
                     }
                 }
-
                 if (match) {
-                    currentFilteredList.add(item); // Thêm mục vào danh sách lọc hiện tại
+                    currentFilteredList.add(item);
                 }
             }
         }
 
-        adapter.notifyDataSetChanged(); // Cập nhật adapter sau khi lọc dữ liệu
+        adapter.notifyDataSetChanged();
     }
 }

@@ -20,11 +20,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
-
     private EditText edtUsername, edtPassword;
     private Button btnContinue;
     private TextView tvDangky, tvForgotpw;
-
     private FirebaseAuth auth;
 
     @Override
@@ -33,8 +31,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         initUi();
         initListener();
-
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
     }
 
@@ -73,25 +69,19 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Địa chỉ email không hợp lệ!", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (TextUtils.isEmpty(pass)) {
             Toast.makeText(this, "Vui lòng nhập mật khẩu!", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Đăng nhập bằng Firebase Authentication
         auth.signInWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Đăng nhập thành công
-                            // Xử lý chuyển hướng đến MainActivity
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
-                            // Đăng nhập thất bại, hiển thị thông báo lỗi
                             Log.e("Login", "Đăng nhập thất bại.", task.getException());
                             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại. Vui lòng kiểm tra lại email và mật khẩu.", Toast.LENGTH_SHORT).show();
                         }

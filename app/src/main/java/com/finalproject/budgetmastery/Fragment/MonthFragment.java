@@ -119,7 +119,7 @@ public class MonthFragment extends Fragment {
                             date = formatter.parse(dateInString);
                         } catch (ParseException e) {
                             Log.e("ParseException", "Failed to parse date", e);
-                            continue; // Skip this iteration if date parsing fails
+                            continue;
                         }
 
                         if (khoanChi.getTvAmount() != null) {
@@ -128,7 +128,6 @@ public class MonthFragment extends Fragment {
                             if (isDateInCurrentMonth(date)) {
                                 totalMoneyCurrentMonth += amount;
 
-                                // Track spending by category
                                 String category = khoanChi.getTvTitle();
                                 categorySpending.put(category, categorySpending.getOrDefault(category, 0) + amount);
                             } else if (isDateInPreviousMonth(date)) {
@@ -138,7 +137,6 @@ public class MonthFragment extends Fragment {
                     }
                 }
 
-                // Find the category with the highest spending
                 String maxSpendingCategory = null;
                 int maxSpendingAmount = 0;
                 for (Map.Entry<String, Integer> entry : categorySpending.entrySet()) {
@@ -153,7 +151,7 @@ public class MonthFragment extends Fragment {
 
                 if (maxSpendingCategory != null) {
                     String maxSpendingCategoryText = maxSpendingCategory + ": " + formatCurrency(maxSpendingAmount);
-                    TextView textViewMaxSpendingCategory = getView().findViewById(R.id.TextView14); // Adjust this if the ID is different
+                    TextView textViewMaxSpendingCategory = getView().findViewById(R.id.TextView14);
                     textViewMaxSpendingCategory.setText(maxSpendingCategoryText);
                 }
 
@@ -181,7 +179,7 @@ public class MonthFragment extends Fragment {
 
         BarDataSet barDataSet = new BarDataSet(entries, "");
         barDataSet.setColors(new int[]{0xFFEEEEEE});
-        barDataSet.setDrawValues(true); // Show values on the bars
+        barDataSet.setDrawValues(true);
         barDataSet.setHighlightEnabled(false);
 
         BarData data = new BarData(barDataSet);
@@ -198,7 +196,7 @@ public class MonthFragment extends Fragment {
             }
         });
 
-        bcChart.invalidate(); // Refresh the chart
+        bcChart.invalidate();
     }
 
     public static boolean isDateInCurrentMonth(Date date) {
@@ -214,7 +212,7 @@ public class MonthFragment extends Fragment {
 
     public static boolean isDateInPreviousMonth(Date date) {
         Calendar currentCalendar = Calendar.getInstance();
-        currentCalendar.add(Calendar.MONTH, -1); // Move to previous month
+        currentCalendar.add(Calendar.MONTH, -1);
         Calendar targetCalendar = Calendar.getInstance();
         targetCalendar.setTime(date);
 

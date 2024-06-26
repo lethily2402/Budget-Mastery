@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.frLayout, selectedFragment).commit();
         }
 
-        // Bắt sự kiện khi một mục trong BottomNavigationView được chọn
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -1,4 +1,4 @@
-// AdapterListHome.java
+
 package com.finalproject.budgetmastery.Adapter;
 
 import android.content.Context;
@@ -25,6 +25,7 @@ public class AdapterListHome extends ArrayAdapter<ModelListHome> {
     private final List<ModelListHome> items;
     private final Context context;
 
+
     public AdapterListHome(Context context, int resource, List<ModelListHome> items) {
         super(context, resource, items);
         this.inflater = LayoutInflater.from(context);
@@ -48,7 +49,7 @@ public class AdapterListHome extends ArrayAdapter<ModelListHome> {
             TextView textViewTitle = convertView.findViewById(R.id.tvTitle);
             TextView textViewAmount = convertView.findViewById(R.id.tvAmount);
 
-            // Hiển thị dữ liệu lên views
+
             textViewDate.setText(item.getTvDate());
             textViewDay.setText(item.getTvDay());
             textViewTitle.setText(item.getTvTitle());

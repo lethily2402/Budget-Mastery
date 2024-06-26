@@ -105,8 +105,6 @@ public class DsKhoanThuFragment extends Fragment {
         if (window == null) {
             return;
         }
-
-        // Thiết lập các thuộc tính cho window để dialog có thể tràn màn hình
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(window.getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -127,12 +125,9 @@ public class DsKhoanThuFragment extends Fragment {
         // Get UID of current user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // Handle if the user is not logged in
             return;
         }
         String userId = currentUser.getUid();
-
-        // Reference to "users/{userId}/addkhoanchi/{category}/income"
         DatabaseReference userKhoanChiRef = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(userId).child("chitietkhoanthu").child(category).child("income");
 
@@ -154,8 +149,6 @@ public class DsKhoanThuFragment extends Fragment {
                 Toast.makeText(requireContext(), "Failed to load expenses: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Close dialog on button click
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,10 +170,9 @@ public class DsKhoanThuFragment extends Fragment {
                         if (data != null) {
                             String imageUri = (String) data.get("imageUri");
                             String tenNhom = (String) data.get("txt_title");
-                            String key = snapshot.getKey(); // Lấy key từ snapshot
+                            String key = snapshot.getKey();
 
                             if (imageUri != null && tenNhom != null) {
-                                // Tạo đối tượng ModelListKhoanChi với key
                                 ModelListKhoanThu income = new ModelListKhoanThu(imageUri, tenNhom, key);
                                 adapter.add(income);
                             } else {
@@ -255,26 +247,23 @@ public class DsKhoanThuFragment extends Fragment {
                     Toast.makeText(requireContext(), "Vui lòng nhập tên nhóm", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // Kiểm tra xem đã chọn ảnh chưa
                 if (selectedImageUri == null) {
                     Toast.makeText(requireContext(), "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Tạo đối tượng ModelListKhoanThu với đường dẫn ảnh và tên nhóm
+
                 ModelListKhoanThu newItem = new ModelListKhoanThu(selectedImageUri.toString(), tenNhom, null);
 
-                // Đường dẫn tới node "khoanThu" trong Realtime Database
                 DatabaseReference khoanThuRef = FirebaseDatabase.getInstance().getReference().child("khoanThu");
 
-                // Push dữ liệu mới lên Realtime Database
+
                 String newItemKey = khoanThuRef.push().getKey();
                 newItem.setKey(newItemKey);
                 khoanThuRef.child(newItemKey).setValue(newItem)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                // Hiển thị thông báo khi lưu thành công và đóng dialog
                                 Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
@@ -282,7 +271,6 @@ public class DsKhoanThuFragment extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // Hiển thị thông báo khi lưu thất bại
                                 Toast.makeText(requireContext(), "Lưu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -291,7 +279,6 @@ public class DsKhoanThuFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Mở trình chọn ảnh từ thư viện của thiết bị
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, PICK_IMAGE_REQUEST);
@@ -305,8 +292,6 @@ public class DsKhoanThuFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             selectedImageUri = data.getData();
-
-            // Cập nhật ảnh được chọn vào ImageView
             if (imageIcon != null) {
                 imageIcon.setImageURI(selectedImageUri);
             }
@@ -343,13 +328,9 @@ public class DsKhoanThuFragment extends Fragment {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy item hiện tại
+
                 ModelListKhoanThu item = listItems.get(position);
-
-                // Xóa item từ Firebase
                 deleteItemFromFirebase(item.getKey());
-
-                // Xóa item từ list và cập nhật adapter
                 listItems.remove(position);
                 adapter.notifyDataSetChanged();
 

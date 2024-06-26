@@ -37,7 +37,6 @@ public class ViewPageMainAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 5; // Số lượng Fragment trong ViewPager2
-    }
+        return 5; }
 }
 

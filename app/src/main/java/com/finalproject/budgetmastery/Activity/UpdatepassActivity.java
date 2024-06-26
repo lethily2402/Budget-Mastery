@@ -155,9 +155,7 @@ public class UpdatepassActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             Toast.makeText(this, "Thay đổi mật khẩu thành công!", Toast.LENGTH_SHORT).show();
-                            // Cập nhật dữ liệu lên Realtime Database (ví dụ: cập nhật mật khẩu)
                             updateUserPasswordInDatabase(newPassword);
-                            // Chuyển về màn hình đăng nhập
                             Intent intent = new Intent(UpdatepassActivity.this, LoginActivity.class);
                             startActivity(intent);
                             finish();
@@ -167,7 +165,6 @@ public class UpdatepassActivity extends AppCompatActivity {
                     });
         } else {
             Toast.makeText(this, "Không thể thay đổi mật khẩu. Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
-            // Chuyển về màn hình đăng nhập
             Intent intent = new Intent(UpdatepassActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -179,8 +176,6 @@ public class UpdatepassActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userId = currentUser.getUid();
             DatabaseReference currentUserDb = databaseReference.child("users").child(userId);
-
-            // Cập nhật mật khẩu mới vào Realtime Database
             currentUserDb.child("password").setValue(newPassword)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

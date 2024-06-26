@@ -6,41 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.SettingProfileFragment">
 
+    <TextView
+        android:id="@+id/hoSo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Hồ sơ"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_main"
-        android:layout_width="410dp"
-        android:layout_height="576dp"
-        app:cardBackgroundColor="@color/background_color"
-        app:cardCornerRadius="50sp"
-        app:contentPaddingBottom="50dp"
-        app:contentPaddingLeft="50dp"
-        app:contentPaddingRight="50dp"
-        app:contentPaddingTop="50dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:contentPadding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/hoSo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="30dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Thiết lập tài khoản"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:text="Thiết lập tài khoản"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -52,18 +57,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins_semibold"
                     android:text="Họ và tên"
-                    android:textSize="20sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/edtName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
                     android:hint="Họ và tên"
-                    android:padding="4dp"
-                    android:textSize="22sp" />
+                    android:padding="8dp"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -76,55 +82,82 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins_semibold"
                     android:text="Số điện thoại"
-                    android:textSize="20sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <EditText
+                    android:id="@+id/edtPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
                     android:hint="Số điện thoại"
-                    android:padding="4dp"
-                    android:textSize="22sp" />
+                    android:padding="8dp"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnAccept"
-                    android:layout_width="141sp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="50sp"
-                    android:backgroundTint="@color/primary_color"
-                    android:text="Cập nhật"
-                    android:textColor="@color/black"
+                    android:layout_marginBottom="4dp"
+                    android:text="Email"
                     android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:textStyle="bold" />
 
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_input"
+                    android:backgroundTint="#DFF7E2"
+                    android:hint="Email"
+                    android:padding="8dp"
+                    android:textSize="18sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="Mật khẩu"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_input"
+                    android:backgroundTint="#DFF7E2"
+                    android:hint="Mật khẩu"
+                    android:padding="8dp"
+                    android:textSize="18sp"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAccept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:backgroundTint="@color/primary_color"
+                android:text="Cập nhật"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/hoSo"
-        android:layout_width="349dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/poppins_bold"
-        android:text="Hồ sơ"
-        android:textAlignment="center"
-        android:textSize="35sp"
-        app:layout_constraintBottom_toTopOf="@id/cv_main"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

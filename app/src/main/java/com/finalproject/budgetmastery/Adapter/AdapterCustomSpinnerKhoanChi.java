@@ -19,14 +19,11 @@ public class AdapterCustomSpinnerKhoanChi extends ArrayAdapter<ModelListKhoanChi
     private final LayoutInflater inflater;
     private final List<ModelListKhoanChi> items;
 
-
-
     public AdapterCustomSpinnerKhoanChi(Context context, List<ModelListKhoanChi> items) {
         super(context, R.layout.custom_spinner_item, items);
         this.inflater = LayoutInflater.from(context);
         this.items = items;
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {

@@ -17,7 +17,6 @@ import com.finalproject.budgetmastery.R;
 import java.util.List;
 
 public class AdapterCustomSpinnerKhoanThu extends ArrayAdapter<ModelListKhoanThu> {
-
     private Context context;
     private List<ModelListKhoanThu> items;
 

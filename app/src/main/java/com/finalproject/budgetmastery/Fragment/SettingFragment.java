@@ -83,7 +83,6 @@ public class SettingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_setting, container, false);
         layoutLogout = view.findViewById(R.id.btn_logout);
         layoutProfile = view.findViewById(R.id.btn_profile);
@@ -102,7 +101,6 @@ public class SettingFragment extends Fragment {
             dialogLogOut.show();
         });
 
-        // Sự kiện chuyển sang trang profile
         layoutProfile.setOnClickListener(v -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             SettingProfileFragment settingProfileFragment = new SettingProfileFragment();

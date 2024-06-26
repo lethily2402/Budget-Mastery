@@ -1,8 +1,7 @@
 package com.finalproject.budgetmastery.Service;
 
-import android.graphics.Color;
-
 import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -54,16 +53,15 @@ public class GmailSender {
                     "</div>" +
                     "</div>";
 
-            // Sử dụng setContent thay vì setText để gửi email định dạng HTML
+
             message.setContent(htmlContent, "text/html; charset=utf-8");
 
             Transport.send(message);
-            return true; // Email sent successfully
+            return true;
         } catch (Exception e) {
-            // Sử dụng logging framework thay vì in stack trace
-            // e.g., Logger.getLogger(GmailSender.class.getName()).log(Level.SEVERE, null, e);
+
             e.printStackTrace();
-            return false; // Failed to send email
+            return false;
         }
     }
 }

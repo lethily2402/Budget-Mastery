@@ -74,10 +74,7 @@ public class DsKhoanChiFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        // Khởi tạo DatabaseReference
         khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
-
-        // Load dữ liệu từ Firebase và hiển thị trong ListView
         loadFirebaseData();
         btnThemphanloai.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,12 +110,10 @@ public class DsKhoanChiFragment extends Fragment {
         if (window == null) {
             return;
         }
-
-        // Thiết lập các thuộc tính cho window để dialog có thể tràn màn hình
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(window.getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT; // Sửa đổi chiều cao để tràn màn hình
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
         window.setAttributes(layoutParams);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -132,15 +127,13 @@ public class DsKhoanChiFragment extends Fragment {
         AdapterExpense adapter = new AdapterExpense(requireContext(), R.layout.home_list_item_by_date, expenseList);
         listViewExpenses.setAdapter(adapter);
 
-        // Get UID of current user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // Handle if the user is not logged in
+
             return;
         }
         String userId = currentUser.getUid();
 
-        // Reference to "users/{userId}/addkhoanchi/{category}/income"
         DatabaseReference userKhoanChiRef = FirebaseDatabase.getInstance().getReference()
                 .child("users").child(userId).child("chitiet").child(category).child("expense");
 
@@ -162,8 +155,6 @@ public class DsKhoanChiFragment extends Fragment {
                 Toast.makeText(requireContext(), "Failed to load expenses: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        // Close dialog on button click
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,8 +164,6 @@ public class DsKhoanChiFragment extends Fragment {
 
         dialog.show();
     }
-
-
 
     private void loadFirebaseData() {
         khoanChiRef.addValueEventListener(new ValueEventListener() {
@@ -187,10 +176,10 @@ public class DsKhoanChiFragment extends Fragment {
                         if (data != null) {
                             String imageUri = (String) data.get("imageUri");
                             String tenNhom = (String) data.get("txt_title");
-                            String key = snapshot.getKey(); // Lấy key từ snapshot
+                            String key = snapshot.getKey();
 
                             if (imageUri != null && tenNhom != null) {
-                                // Tạo đối tượng ModelListKhoanChi với key
+
                                 ModelListKhoanChi expense = new ModelListKhoanChi(imageUri, tenNhom, key);
                                 adapter.add(expense);
                             } else {
@@ -258,32 +247,27 @@ public class DsKhoanChiFragment extends Fragment {
         btnLuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy tên nhóm từ EditText
                 String tenNhom = edtThemnhom.getText().toString().trim();
                 if (tenNhom.isEmpty()) {
                     Toast.makeText(requireContext(), "Vui lòng nhập tên nhóm", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                // Kiểm tra xem đã chọn ảnh chưa
+
                 if (selectedImageUri == null) {
                     Toast.makeText(requireContext(), "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // Tạo đối tượng ModelListKhoanChi với đường dẫn ảnh và tên nhóm
                 ModelListKhoanChi newItem = new ModelListKhoanChi(selectedImageUri.toString(), tenNhom, null);
 
-                // Đường dẫn tới node "khoanChi" trong Realtime Database
                 DatabaseReference khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
 
-                // Push dữ liệu mới lên Realtime Database
                 String newItemKey = khoanChiRef.push().getKey();
                 newItem.setKey(newItemKey);
                 khoanChiRef.child(newItemKey).setValue(newItem)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                // Hiển thị thông báo khi lưu thành công và đóng dialog
                                 Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                             }
@@ -291,7 +275,6 @@ public class DsKhoanChiFragment extends Fragment {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                // Hiển thị thông báo khi lưu thất bại
                                 Toast.makeText(requireContext(), "Lưu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -355,13 +338,8 @@ public class DsKhoanChiFragment extends Fragment {
         btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lấy item hiện tại
                 ModelListKhoanChi item = listItems.get(position);
-
-                // Xóa item từ Firebase
                 deleteItemFromFirebase(item.getKey());
-
-                // Xóa item từ list và cập nhật adapter
                 listItems.remove(position);
                 adapter.notifyDataSetChanged();
 

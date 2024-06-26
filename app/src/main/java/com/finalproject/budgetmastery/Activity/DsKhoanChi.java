@@ -1,9 +1,5 @@
 package com.finalproject.budgetmastery.Activity;
 
-
-import static com.finalproject.budgetmastery.R.id.tabLayout1;
-
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +14,6 @@ import com.finalproject.budgetmastery.Adapter.ViewPagerThuChiAdapter;
 import com.finalproject.budgetmastery.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class DsKhoanChi extends Fragment {
     private TabLayout tabLayout1;

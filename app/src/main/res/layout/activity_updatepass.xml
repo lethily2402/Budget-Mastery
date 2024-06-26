@@ -5,9 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00D09E"
+    android:background="@color/primary_color"
 
     tools:context=".Activity.UpdatepassActivity">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_main"
         android:layout_width="410dp"
@@ -39,9 +40,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins_semibold"
                     android:text="Mật khẩu mới"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edt_up_pw"
@@ -65,9 +66,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_semibold"
                     android:text="Nhập lại mật khẩu"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/edt_re_up_pw"
@@ -95,8 +96,8 @@
                     android:layout_marginTop="100dp"
                     android:backgroundTint="@color/primary_color"
                     android:text="Lưu lại"
-                    android:textSize="18sp"
                     android:textColor="@color/black"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
             </LinearLayout>
@@ -110,10 +111,10 @@
         android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:fontFamily="@font/poppins_bold"
         android:text="Thay đổi mật khẩu"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="26sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/cv_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

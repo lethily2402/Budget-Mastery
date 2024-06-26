@@ -105,7 +105,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.finalproject.budgetmastery.R;
 import com.finalproject.budgetmastery.Service.GmailSender;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 public class PincodeActivity extends AppCompatActivity {
     private String OTP;
@@ -169,7 +168,6 @@ public class PincodeActivity extends AppCompatActivity {
     }
 
     private String generateOTP() {
-        // Your OTP generation logic here
-        return "123456"; // Replace with your actual OTP generation code
+        return "123456";
     }
 }

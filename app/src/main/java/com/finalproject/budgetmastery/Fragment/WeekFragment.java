@@ -112,15 +112,13 @@ public class WeekFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int totalMoneyCurrentWeek = 0;
                 int totalMoneyPreviousWeek = 0;
-                maxSpending = 0; // Reset max spending for each retrieval
+                maxSpending = 0;
                 maxSpendingCategory = "";
 
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
                 Date date;
 
-                // Maps to store total spending by category
                 HashMap<String, Integer> categorySpendingMap = new HashMap<>();
-
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     ModelListHome khoanChi = dataSnapshot.getValue(ModelListHome.class);
                     if (khoanChi != null) {
@@ -129,19 +127,19 @@ public class WeekFragment extends Fragment {
                             date = formatter.parse(dateInString);
                         } catch (ParseException e) {
                             Log.e("ParseException", "Failed to parse date", e);
-                            continue; // Skip this iteration if date parsing fails
+                            continue;
                         }
 
                         if (khoanChi.getTvAmount() != null) {
                             int amount = Integer.parseInt(khoanChi.getTvAmount());
 
-                            // Track maximum spending category
+
                             if (amount > maxSpending) {
                                 maxSpending = amount;
-                                maxSpendingCategory = khoanChi.getTvTitle(); // Adjust based on your ModelListHome structure
+                                maxSpendingCategory = khoanChi.getTvTitle();
                             }
 
-                            // Aggregate spending by category
+
                             String category = khoanChi.getTvTitle();
                             if (categorySpendingMap.containsKey(category)) {
                                 int currentSpending = categorySpendingMap.get(category);
@@ -159,7 +157,6 @@ public class WeekFragment extends Fragment {
                     }
                 }
 
-                // Calculate total spending for the most spending category
                 int totalSpendingForMaxCategory = categorySpendingMap.getOrDefault(maxSpendingCategory, 0);
 
                 String formattedTotalAmount = formatCurrency(totalMoneyCurrentWeek);
@@ -191,7 +188,7 @@ public class WeekFragment extends Fragment {
 
         BarDataSet barDataSet = new BarDataSet(entries, "");
         barDataSet.setColors(new int[]{0xFFEEEEEE});
-        barDataSet.setDrawValues(true); // Show values on bars
+        barDataSet.setDrawValues(true);
         barDataSet.setHighlightEnabled(false);
 
         BarData data = new BarData(barDataSet);
@@ -208,7 +205,7 @@ public class WeekFragment extends Fragment {
             }
         });
 
-        bcChart.invalidate(); // Refresh chart
+        bcChart.invalidate();
     }
 
     private String formatCurrency(int amount) {

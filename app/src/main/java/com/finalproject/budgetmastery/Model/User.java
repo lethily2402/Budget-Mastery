@@ -2,8 +2,6 @@ package com.finalproject.budgetmastery.Model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.util.Locale;
 
 public class User {
     private String name;
@@ -13,7 +11,6 @@ public class User {
     private String sdt;
 
 
-    // Constructor mặc định cần thiết cho Firebase
     public User() {
     }
 
@@ -71,7 +68,6 @@ public class User {
         this.sdt = sdt;
     }
 
-    // Phương thức băm mật khẩu
     private String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");

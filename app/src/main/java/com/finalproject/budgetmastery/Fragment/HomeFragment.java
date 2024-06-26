@@ -1,4 +1,4 @@
-
+//
 //package com.finalproject.budgetmastery.Fragment;
 //
 //import android.content.Intent;
@@ -35,7 +35,6 @@
 //import java.util.Comparator;
 //import java.util.Date;
 //import java.util.List;
-//
 //public class HomeFragment extends Fragment {
 //
 //    private ListView listView;
@@ -45,13 +44,14 @@
 //    private TextView sotienConLaiTextView;
 //    private TextView chiTieuTextView;
 //    private TextView thuNhapTextView;
+//    private TextView tennguoidung;
 //
 //    private DatabaseReference expenseReference;
 //    private DatabaseReference incomeReference;
+//    private DatabaseReference userReference;
 //
 //    private FirebaseAuth auth;
 //    private FirebaseUser currentUser;
-//
 //
 //    @Nullable
 //    @Override
@@ -62,12 +62,12 @@
 //        sotienConLaiTextView = view.findViewById(R.id.hoSo);
 //        chiTieuTextView = view.findViewById(R.id.chitieu);
 //        thuNhapTextView = view.findViewById(R.id.thunhap);
+//        tennguoidung = view.findViewById(R.id.tennguoidung);
 //
 //        transactionList = new ArrayList<>();
 //        adapter = new AdapterListHome(requireContext(), R.layout.home_list_item_by_date, transactionList);
 //        listView.setAdapter(adapter);
 //
-//        // Firebase setup
 //        auth = FirebaseAuth.getInstance();
 //        currentUser = auth.getCurrentUser();
 //
@@ -75,13 +75,13 @@
 //            String userId = currentUser.getUid();
 //            expenseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("addkhoanchi");
 //            incomeReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("addkhoanthu");
-//
+//            userReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
 //            loadFirebaseData();
+//            loadUserData();
 //        } else {
 //            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
 //        }
 //
-//        // Search icon click listener
 //        ImageView imgIcon = view.findViewById(R.id.imgSearch);
 //        imgIcon.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -91,15 +91,20 @@
 //            }
 //        });
 //
+//
 //        return view;
 //    }
+//
 //    private void loadUserData() {
 //        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                if (dataSnapshot.exists()) {
-//                    String username = dataSnapshot.child("username").getValue(String.class);
-//                    tenNguoiDungTextView.setText("Xin chào " + username);
+//                    String username = dataSnapshot.child("name").getValue(String.class);
+//                    Log.d("HomeFragment", "User name loaded from Firebase: " + username);
+//                    tennguoidung.setText("Xin chào, " + username);
+//
+//
 //                }
 //            }
 //
@@ -110,8 +115,8 @@
 //        });
 //    }
 //
-//    private void loadFirebaseData() {
 //
+//    private void loadFirebaseData() {
 //        expenseReference.addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -155,7 +160,6 @@
 //                    }
 //                }
 //
-//                // Sort transactionList by date (newest to oldest)
 //                Collections.sort(transactionList, new Comparator<ModelListHome>() {
 //                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 //
@@ -164,12 +168,10 @@
 //                        try {
 //                            Date date1 = dateFormat.parse(o1.getTvDate());
 //                            Date date2 = dateFormat.parse(o2.getTvDate());
-//                            // Sort by date first
 //                            int dateComparison = date2.compareTo(date1);
 //                            if (dateComparison != 0) {
 //                                return dateComparison;
 //                            } else {
-//                                // If dates are the same, sort by timestamp
 //                                return Long.compare(o2.getTimestamp(), o1.getTimestamp());
 //                            }
 //                        } catch (ParseException e) {
@@ -178,7 +180,6 @@
 //                    }
 //                });
 //
-//                // Update UI with total income, expense, and remaining balance
 //                updateUI(totalThuNhap, totalChitieu);
 //                adapter.notifyDataSetChanged();
 //            }
@@ -199,14 +200,23 @@
 //}
 
 
+
 package com.finalproject.budgetmastery.Fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -220,6 +230,8 @@ import com.finalproject.budgetmastery.Activity.SearchActivity;
 import com.finalproject.budgetmastery.Adapter.AdapterListHome;
 import com.finalproject.budgetmastery.Model.ModelListHome;
 import com.finalproject.budgetmastery.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -245,11 +257,11 @@ public class HomeFragment extends Fragment {
     private TextView sotienConLaiTextView;
     private TextView chiTieuTextView;
     private TextView thuNhapTextView;
-    private TextView tennguoidung; // Add this
+    private TextView tennguoidung;
 
     private DatabaseReference expenseReference;
     private DatabaseReference incomeReference;
-    private DatabaseReference userReference; // Add this
+    private DatabaseReference userReference;
 
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
@@ -263,13 +275,12 @@ public class HomeFragment extends Fragment {
         sotienConLaiTextView = view.findViewById(R.id.hoSo);
         chiTieuTextView = view.findViewById(R.id.chitieu);
         thuNhapTextView = view.findViewById(R.id.thunhap);
-        tennguoidung = view.findViewById(R.id.tennguoidung); // Initialize tennguoidung
+        tennguoidung = view.findViewById(R.id.tennguoidung);
 
         transactionList = new ArrayList<>();
         adapter = new AdapterListHome(requireContext(), R.layout.home_list_item_by_date, transactionList);
         listView.setAdapter(adapter);
 
-        // Firebase setup
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
@@ -277,15 +288,13 @@ public class HomeFragment extends Fragment {
             String userId = currentUser.getUid();
             expenseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("addkhoanchi");
             incomeReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("addkhoanthu");
-            userReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId); // Initialize userReference
-
+            userReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
             loadFirebaseData();
-            loadUserData(); // Load user data for greeting
+            loadUserData();
         } else {
             Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
         }
 
-        // Search icon click listener
         ImageView imgIcon = view.findViewById(R.id.imgSearch);
         imgIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -295,8 +304,132 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showDeleteDialog(position);
+            }
+        });
+
         return view;
     }
+
+    private void showDeleteDialog(final int position) {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_xoa);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+
+        TextView textView = dialog.findViewById(R.id.textView8);
+        Button btnHuy = dialog.findViewById(R.id.btnBoqua);
+        Button btnXoa = dialog.findViewById(R.id.btnOk);
+
+        btnHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btnXoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ModelListHome item = transactionList.get(position);
+                deleteItemFromFirebase(item.getKey());
+                transactionList.remove(position);
+                adapter.notifyDataSetChanged();
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+//    private void deleteItemFromFirebase(String key) {
+//        if (key == null) {
+//            Log.e("DeleteItem", "Key is null, cannot delete from Firebase");
+//            Toast.makeText(requireContext(), "Không thể xóa vì key null", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        // Remove from 'addkhoanchi' node
+//        expenseReference.child(key).removeValue()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(requireContext(), "Xóa khoản chi thành công", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(requireContext(), "Xóa khoản chi thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//        // Remove from 'addkhoanthu' node
+//        incomeReference.child(key).removeValue()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        Toast.makeText(requireContext(), "Xóa khoản thu thành công", Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Toast.makeText(requireContext(), "Xóa khoản thu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+private void deleteItemFromFirebase(String key) {
+    if (key == null) {
+        Log.e("DeleteItem", "Key is null, cannot delete from Firebase");
+        Toast.makeText(requireContext(), "Không thể xóa vì key null", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    // Tiếp tục quá trình xóa
+    expenseReference.child(key).removeValue()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(requireContext(), "Xóa khoản chi thành công", Toast.LENGTH_SHORT).show();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(requireContext(), "Xóa khoản chi thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+    incomeReference.child(key).removeValue()
+            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(requireContext(), "Xóa khoản thu thành công", Toast.LENGTH_SHORT).show();
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(requireContext(), "Xóa khoản thu thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+}
+
 
     private void loadUserData() {
         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -304,10 +437,8 @@ public class HomeFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String username = dataSnapshot.child("name").getValue(String.class);
-                    Log.d("HomeFragment", "User name loaded from Firebase: " + username); // Log to check username
-                    tennguoidung.setText("Xin chào " + username);
-
-
+                    Log.d("HomeFragment", "User name loaded from Firebase: " + username);
+                    tennguoidung.setText("Xin chào, " + username);
                 }
             }
 
@@ -318,7 +449,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
     private void loadFirebaseData() {
         expenseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -328,13 +458,14 @@ public class HomeFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     try {
                         ModelListHome expense = snapshot.getValue(ModelListHome.class);
-                        if (expense != null) {
+                        if (expense != null && expense.getTvAmount() != null) {
                             transactionList.add(expense);
                             totalChitieu += Integer.parseInt(expense.getTvAmount());
                         }
                     } catch (Exception e) {
                         Log.e("FirebaseData", "Failed to convert data to ModelListHome", e);
                     }
+
                 }
                 loadIncomeData(totalChitieu);
             }
@@ -363,30 +494,31 @@ public class HomeFragment extends Fragment {
                     }
                 }
 
-                // Sort transactionList by date (newest to oldest)
                 Collections.sort(transactionList, new Comparator<ModelListHome>() {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
                     @Override
                     public int compare(ModelListHome o1, ModelListHome o2) {
                         try {
+                            if (o1.getTvDate() == null || o2.getTvDate() == null) {
+                                return 0; // or handle appropriately
+                            }
+
                             Date date1 = dateFormat.parse(o1.getTvDate());
                             Date date2 = dateFormat.parse(o2.getTvDate());
-                            // Sort by date first
                             int dateComparison = date2.compareTo(date1);
                             if (dateComparison != 0) {
                                 return dateComparison;
                             } else {
-                                // If dates are the same, sort by timestamp
                                 return Long.compare(o2.getTimestamp(), o1.getTimestamp());
                             }
-                        } catch (ParseException e) {
+                        } catch (ParseException | NullPointerException e) {
                             throw new IllegalArgumentException(e);
                         }
                     }
                 });
 
-                // Update UI with total income, expense, and remaining balance
+
                 updateUI(totalThuNhap, totalChitieu);
                 adapter.notifyDataSetChanged();
             }

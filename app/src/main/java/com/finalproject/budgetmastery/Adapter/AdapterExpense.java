@@ -44,7 +44,6 @@ public class AdapterExpense extends ArrayAdapter<ModelListHome> {
             TextView textViewTitle = convertView.findViewById(R.id.tvTitle);
             TextView textViewAmount = convertView.findViewById(R.id.tvAmount);
 
-            // Hiển thị dữ liệu lên views
             textViewDate.setText(expense.getTvDate());
             textViewDay.setText(expense.getTvDay());
             textViewTitle.setText(expense.getTvTitle());
