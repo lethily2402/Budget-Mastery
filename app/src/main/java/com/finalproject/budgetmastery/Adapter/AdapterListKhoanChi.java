@@ -49,7 +49,7 @@ public class AdapterListKhoanChi extends ArrayAdapter<ModelListKhoanChi> {
                     .load(Uri.parse(item.getImageUri()))
                     .into(imageIcon);
 
-            txtTitle.setText(item.getTxt_title());
+            txtTitle.setText(item.getTvTitle());
         }
 
         return convertView;
