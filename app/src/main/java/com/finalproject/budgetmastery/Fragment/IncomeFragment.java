@@ -2,11 +2,6 @@ package com.finalproject.budgetmastery.Fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +11,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.finalproject.budgetmastery.Adapter.AdapterCustomSpinnerKhoanChi;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.finalproject.budgetmastery.Adapter.AdapterCustomSpinnerKhoanThu;
 import com.finalproject.budgetmastery.Model.ModelListHome;
-import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
 import com.finalproject.budgetmastery.Model.ModelListKhoanThu;
 import com.finalproject.budgetmastery.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,8 +40,12 @@ public class IncomeFragment extends Fragment {
     Button btnLuu;
     EditText edtSoTien, edtGhiChu, edtNgayThang;
     Spinner spChonNhom;
+    private List<ModelListHome> incomeList;
     private DatabaseReference khoanThuRef;
     private List<ModelListKhoanThu> khoanThuList;
+    private DatabaseReference userKhoanThuRef;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
     @Nullable
     @Override
@@ -55,9 +60,21 @@ public class IncomeFragment extends Fragment {
 
         // Initialize expense list
         khoanThuList = new ArrayList<>();
+        incomeList = new ArrayList<>();
 
         // Reference to "khoanChi" node in Firebase
-        khoanThuRef = FirebaseDatabase.getInstance().getReference().child("khoanThu");
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            khoanThuRef = FirebaseDatabase.getInstance().getReference().child("khoanThu");
+            userKhoanThuRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("addkhoanthu");
+            loadFirebaseData();
+        } else {
+            Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show();
+        }
+
 
         // Load data from Firebase and update Spinner
         loadFirebaseData();
@@ -141,21 +158,42 @@ public class IncomeFragment extends Fragment {
         String nhom = selectedItem.getTxt_title();
         String imageUri = selectedItem.getImageUri(); // Assuming imageUri is already set correctly
 
+        // Reference to specific category node under "users/{userId}/addkhoanchi/{category}/income"
+        String userId = currentUser.getUid();
 
-//        DatabaseReference categoryRef = khoanThuRef.child(nhom).child("income");
 
+        DatabaseReference detailRef = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(userId).child("chitietkhoanthu").child(nhom).child("income");
 
+        // Save data under "users/{userId}/addkhoanchi/{category}/income" node
         String tvDay = parseDayFromDate(ngayThang);
         ModelListHome newKhoanThu = new ModelListHome(ngayThang, tvDay, nhom, soTien, imageUri);
-//        categoryRef.push().setValue(newKhoanThu);
-
-
-        DatabaseReference addKhoanThuRef = FirebaseDatabase.getInstance().getReference().child("addkhoanthu");
-        addKhoanThuRef.push().setValue(newKhoanThu);
-
-        resetFields();
-
-        Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_LONG).show();
+        String id = userKhoanThuRef.push().getKey();
+        if (id != null) {
+            userKhoanThuRef.child(id).setValue(newKhoanThu).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        // Also save to detailed node
+                        detailRef.child(id).setValue(newKhoanThu).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(requireContext(), "Lưu thành công", Toast.LENGTH_SHORT).show();
+                                    resetFields();
+                                } else {
+                                    Toast.makeText(requireContext(), "Lưu không thành công", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    } else {
+                        Toast.makeText(requireContext(), "Lưu không thành công", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(requireContext(), "Lưu không thành công", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void resetFields() {

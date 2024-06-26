@@ -8,9 +8,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,12 +24,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.finalproject.budgetmastery.Adapter.AdapterExpense;
 import com.finalproject.budgetmastery.Adapter.AdapterListKhoanThu;
-import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
+import com.finalproject.budgetmastery.Model.ModelListHome;
 import com.finalproject.budgetmastery.Model.ModelListKhoanThu;
 import com.finalproject.budgetmastery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +54,8 @@ public class DsKhoanThuFragment extends Fragment {
     private Uri selectedImageUri;
     ImageView imageIcon;
     private DatabaseReference khoanThuRef;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,6 +67,9 @@ public class DsKhoanThuFragment extends Fragment {
 
         adapter = new AdapterListKhoanThu(requireContext(), R.layout.khoanthu_list, listItems);
         listView.setAdapter(adapter);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
 
         khoanThuRef = FirebaseDatabase.getInstance().getReference().child("khoanThu");
         loadFirebaseData();
@@ -80,8 +87,85 @@ public class DsKhoanThuFragment extends Fragment {
                 return true;
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ModelListKhoanThu selectedItem = listItems.get(position);
+                showIncomeDialog(selectedItem.getTxt_title());
+            }
+        });
         return view;
     }
+    private void showIncomeDialog(String category) {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_chitiet);
+
+        Window window = dialog.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        // Thiết lập các thuộc tính cho window để dialog có thể tràn màn hình
+        WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+        layoutParams.copyFrom(window.getAttributes());
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT; // Sửa đổi chiều cao để tràn màn hình
+        window.setAttributes(layoutParams);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ListView listViewExpenses = dialog.findViewById(R.id.listView1);
+        Button btnClose = dialog.findViewById(R.id.btnClose);
+        TextView tvTitle = dialog.findViewById(R.id.tvTitle);
+
+        tvTitle.setText(category);
+
+        List<ModelListHome> incomeList = new ArrayList<>();
+        AdapterExpense adapter = new AdapterExpense(requireContext(), R.layout.home_list_item_by_date, incomeList);
+        listViewExpenses.setAdapter(adapter);
+
+        // Get UID of current user
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            // Handle if the user is not logged in
+            return;
+        }
+        String userId = currentUser.getUid();
+
+        // Reference to "users/{userId}/addkhoanchi/{category}/income"
+        DatabaseReference userKhoanChiRef = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(userId).child("chitietkhoanthu").child(category).child("income");
+
+        userKhoanChiRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                incomeList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    ModelListHome expense = snapshot.getValue(ModelListHome.class);
+                    if (expense != null) {
+                        incomeList.add(expense);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(requireContext(), "Failed to load expenses: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Close dialog on button click
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
     private void loadFirebaseData(){
         khoanThuRef.addValueEventListener(new ValueEventListener() {
             @Override

@@ -10,6 +10,7 @@ public class ModelListHome implements Serializable {
     private String tvAmount;
     private String imageUri;
     private String key;
+    private long timestamp;
 
 
     public ModelListHome() {
@@ -23,6 +24,7 @@ public class ModelListHome implements Serializable {
         this.tvAmount = tvAmount;
         this.imageUri = imageUri;
         this.key = key;
+        this.timestamp = System.currentTimeMillis();
     }
 
     // Getters và Setters
@@ -43,5 +45,11 @@ public class ModelListHome implements Serializable {
     public String getImageUri() { return imageUri; }
     public void setImageUri(String imageUri) { this.imageUri = imageUri; }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
 
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 }

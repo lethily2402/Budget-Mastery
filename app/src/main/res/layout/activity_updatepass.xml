@@ -41,18 +41,18 @@
                     android:layout_marginBottom="4dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Mật khẩu mới"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/edt_up_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:hint="Mat khau"
                     android:layout_marginBottom="4dp"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
+                    android:inputType="textPassword"
                     android:padding="4dp"
-                    />
+                    android:textSize="18sp" />
             </LinearLayout>
 
 
@@ -67,16 +67,17 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Nhập lại mật khẩu"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <EditText
+                    android:id="@+id/edt_re_up_pw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="VD: Lethilyy2402@gmail.com"
-                    android:textSize="20sp"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
-                    android:padding="4dp"/>
+                    android:inputType="textPassword"
+                    android:padding="4dp"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -87,7 +88,7 @@
 
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btn_save"
                     android:layout_width="141sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -108,12 +109,11 @@
         android:id="@+id/Sotienconlai"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins_bold"
         android:text="Thay đổi mật khẩu"
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/cv_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

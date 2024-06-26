@@ -1,6 +1,9 @@
 package com.finalproject.budgetmastery.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,9 @@ import com.finalproject.budgetmastery.R;
 
 public class ResetpassActivity extends AppCompatActivity {
 
+    Button btnContious;
+    EditText etEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,5 +28,15 @@ public class ResetpassActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        btnContious = findViewById(R.id.btnContinous);
+        etEmail = findViewById(R.id.etEmail);
+
+        btnContious.setOnClickListener(v -> {
+            Intent intent = new Intent(ResetpassActivity.this, PincodeActivity.class);
+            intent.putExtra("email", etEmail.getText().toString());
+            startActivity(intent);
+        });
+
     }
 }

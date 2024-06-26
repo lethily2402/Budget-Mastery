@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.finalproject.budgetmastery.Adapter.AdapterSearch;
 import com.finalproject.budgetmastery.Model.ModelListHome;
 import com.finalproject.budgetmastery.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SearchActivity extends AppCompatActivity {
     private EditText etSearch;
     private ImageButton imageButton;
@@ -32,6 +35,8 @@ public class SearchActivity extends AppCompatActivity {
     private List<ModelListHome> originalList;
     private List<ModelListHome> currentFilteredList;
     private DatabaseReference databaseReference;
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +53,16 @@ public class SearchActivity extends AppCompatActivity {
         lvThuchi.setAdapter(adapter);
 
         // Thiết lập Firebase
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
 
-        // Tải dữ liệu từ Firebase
-        loadDataFromFirebase();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
+            loadDataFromFirebase();
+        } else {
+            Toast.makeText(SearchActivity.this, "User not logged in", Toast.LENGTH_SHORT).show();
+        }
 
         // Xử lý tìm kiếm khi thay đổi nội dung trong EditText
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -83,14 +94,18 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-        private void loadDataFromFirebase() {
+    private void loadDataFromFirebase() {
+        // Clear danh sách gốc trước khi tải dữ liệu mới
+        originalList.clear();
+
+        // Tải dữ liệu từ addkhoanchi
         databaseReference.child("addkhoanchi").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ModelListHome item = snapshot.getValue(ModelListHome.class);
                     if (item != null) {
-                        item.setTvDate(item.getTvDate()); // Đảm bảo tvDay được tính toán và lưu trữ
+                        item.setTvDate(item.getTvDate());
                         originalList.add(item);
                     }
                 }
@@ -103,13 +118,14 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // Tải dữ liệu từ addkhoanthu
         databaseReference.child("addkhoanthu").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ModelListHome item = snapshot.getValue(ModelListHome.class);
                     if (item != null) {
-                        item.setTvDate(item.getTvDate()); // Đảm bảo tvDay được tính toán và lưu trữ
+                        item.setTvDate(item.getTvDate());
                         originalList.add(item);
                     }
                 }
@@ -154,4 +170,3 @@ public class SearchActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged(); // Cập nhật adapter sau khi lọc dữ liệu
     }
 }
-

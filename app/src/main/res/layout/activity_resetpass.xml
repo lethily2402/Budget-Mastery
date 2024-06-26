@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00D09E"
+    android:background="@color/primary_color"
 
     tools:context=".Activity.ResetpassActivity">
     <androidx.cardview.widget.CardView
@@ -32,33 +32,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Đặt lại mật khẩu"
-                    android:textSize="20sp" />
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:hint="Mat khau"
-                    android:background="@drawable/rounded_input"
-                    android:backgroundTint="#DFF7E2"
-                    android:padding="4dp"
-                    android:layout_marginBottom="4dp"
-                    />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:orientation="vertical">
 
@@ -70,13 +43,14 @@
                     android:textSize="20sp" />
 
                 <EditText
+                    android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="VD: Lethilyy2402@gmail.com"
-                    android:textSize="20sp"
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
-                    android:padding="4dp"/>
+                    android:hint="VD: Lethilyy2402@gmail.com"
+                    android:padding="4dp"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -85,9 +59,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/btnContinous"
                     android:layout_width="141sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -100,7 +73,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
-                    android:id="@+id/button4"
+                    android:id="@+id/btn_resend"
                     android:layout_width="141dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -146,12 +119,11 @@
         android:id="@+id/Sotienconlai"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins_bold"
         android:text="Quên mật khẩu"
         android:textAlignment="center"
-        android:textSize="35sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/cv_main"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

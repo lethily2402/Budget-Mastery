@@ -63,7 +63,7 @@
         app:menu="@menu/menu1" />
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btn_resend"
         android:layout_width="300dp"
         android:layout_height="53dp"
         android:layout_marginTop="10dp"

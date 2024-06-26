@@ -33,6 +33,8 @@ import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
 import com.finalproject.budgetmastery.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +56,9 @@ public class DsKhoanChiFragment extends Fragment {
     ImageView imageIcon;
     private DatabaseReference khoanChiRef;
 
+    private FirebaseAuth auth;
+    private FirebaseUser currentUser;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +70,9 @@ public class DsKhoanChiFragment extends Fragment {
 
         adapter = new AdapterListKhoanChi(requireContext(), R.layout.khoanchi_list, listItems);
         listView.setAdapter(adapter);
+
+        auth = FirebaseAuth.getInstance();
+        currentUser = auth.getCurrentUser();
 
         // Khởi tạo DatabaseReference
         khoanChiRef = FirebaseDatabase.getInstance().getReference().child("khoanChi");
@@ -99,32 +107,44 @@ public class DsKhoanChiFragment extends Fragment {
     private void showExpensesDialog(String category) {
         final Dialog dialog = new Dialog(requireContext());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_chitiet_khoanchi);
+        dialog.setContentView(R.layout.dialog_chitiet);
 
         Window window = dialog.getWindow();
         if (window == null) {
             return;
         }
 
+        // Thiết lập các thuộc tính cho window để dialog có thể tràn màn hình
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.copyFrom(window.getAttributes());
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.gravity = Gravity.CENTER;
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT; // Sửa đổi chiều cao để tràn màn hình
         window.setAttributes(layoutParams);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        ListView listViewExpenses = dialog.findViewById(R.id.listViewExpenses);
+        ListView listViewExpenses = dialog.findViewById(R.id.listView1);
         Button btnClose = dialog.findViewById(R.id.btnClose);
         TextView tvTitle = dialog.findViewById(R.id.tvTitle);
+
+        tvTitle.setText(category);
 
         List<ModelListHome> expenseList = new ArrayList<>();
         AdapterExpense adapter = new AdapterExpense(requireContext(), R.layout.home_list_item_by_date, expenseList);
         listViewExpenses.setAdapter(adapter);
 
-        DatabaseReference expensesRef = FirebaseDatabase.getInstance().getReference().child("khoanChi").child(category).child("expenses");
+        // Get UID of current user
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            // Handle if the user is not logged in
+            return;
+        }
+        String userId = currentUser.getUid();
 
-        expensesRef.addValueEventListener(new ValueEventListener() {
+        // Reference to "users/{userId}/addkhoanchi/{category}/income"
+        DatabaseReference userKhoanChiRef = FirebaseDatabase.getInstance().getReference()
+                .child("users").child(userId).child("chitiet").child(category).child("expense");
+
+        userKhoanChiRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 expenseList.clear();
@@ -143,6 +163,7 @@ public class DsKhoanChiFragment extends Fragment {
             }
         });
 
+        // Close dialog on button click
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -352,5 +373,6 @@ public class DsKhoanChiFragment extends Fragment {
     }
 
 }
+
 
 

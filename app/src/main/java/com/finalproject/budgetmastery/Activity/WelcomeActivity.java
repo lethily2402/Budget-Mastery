@@ -37,7 +37,7 @@ public class WelcomeActivity extends AppCompatActivity {
         });
 
         btnLogin = findViewById(R.id.btnLogin);
-        btnRegister = findViewById(R.id.btnRegister);
+        btnRegister = findViewById(R.id.btn_resend);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
