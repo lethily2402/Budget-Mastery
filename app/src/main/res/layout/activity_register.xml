@@ -12,6 +12,7 @@
         android:id="@+id/cv_main"
         android:layout_width="410dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="128dp"
         app:cardBackgroundColor="@color/background_color"
         app:cardCornerRadius="50sp"
         app:contentPaddingBottom="20dp"
@@ -20,10 +21,8 @@
         app:contentPaddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="10
-        54dp">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -100,8 +99,8 @@
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
                     android:hint="Mat khau"
-                    android:padding="4dp"
-                    android:inputType="textPassword"/>
+                    android:inputType="textPassword"
+                    android:padding="4dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,8 +124,8 @@
                     android:background="@drawable/rounded_input"
                     android:backgroundTint="#DFF7E2"
                     android:hint="Mat khau"
-                    android:padding="4dp"
-                    android:inputType="textPassword"/>
+                    android:inputType="textPassword"
+                    android:padding="4dp" />
             </LinearLayout>
 
 

@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tennguoidung"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -66,7 +67,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/Sotienconlai"
+                android:id="@+id/hoSo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

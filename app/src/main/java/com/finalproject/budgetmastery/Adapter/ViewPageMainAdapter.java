@@ -7,8 +7,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.finalproject.budgetmastery.Activity.DsKhoanChi;
 import com.finalproject.budgetmastery.Fragment.AddFragment;
-import com.finalproject.budgetmastery.Fragment.DsKhoanChiFragment;
-import com.finalproject.budgetmastery.Fragment.ExpenseFragment;
 import com.finalproject.budgetmastery.Fragment.HomeFragment;
 import com.finalproject.budgetmastery.Fragment.ReportFragment;
 import com.finalproject.budgetmastery.Fragment.SettingFragment;

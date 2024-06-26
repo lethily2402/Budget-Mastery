@@ -106,7 +106,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/Sotienconlai"
+        android:id="@+id/hoSo"
         android:layout_width="349dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

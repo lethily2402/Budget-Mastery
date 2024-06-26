@@ -75,4 +75,3 @@ public class ModelListKhoanChi {
         this.txt_title = txt_title;
     }
 }
-

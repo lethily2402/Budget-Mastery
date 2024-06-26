@@ -373,6 +373,3 @@ public class DsKhoanChiFragment extends Fragment {
     }
 
 }
-
-
-

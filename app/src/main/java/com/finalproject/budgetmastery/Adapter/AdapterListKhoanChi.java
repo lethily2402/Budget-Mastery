@@ -16,8 +16,6 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.finalproject.budgetmastery.Model.ModelListKhoanChi;
 import com.finalproject.budgetmastery.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
